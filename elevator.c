@@ -20,7 +20,11 @@ static int signalEmergencyStop;
 static int signalTimerIsFinished;
 static int signalObstruction;
 
-void initElevator() {
+int initElevator() {
+    if (!elev_init()) {
+        printf(__FILE__ ": Unable to initialize elevator hardware\n");
+        return 0;
+    }
   directionUp = 1;
   elev_set_speed(100);
   while (elev_get_floor_sensor_signal()== -1) {
@@ -35,16 +39,14 @@ void initElevator() {
   signalEmergencyStop = 0;
   signalTimerIsFinished = 0;
   signalObstruction = 0;
+    return 1;
 }
 
 int main()
 {
     // Initialize hardware
     printf("Initializing elevator");
-    if (!elev_init()) {
-        printf(__FILE__ ": Unable to initialize elevator hardware\n");
-        return 1;
-    }
+
 
     initElevator();
     
