@@ -83,7 +83,7 @@ int main()
 	case IDLE:
 	  break;
 	case DRIVE:
-	  setDirection();
+      directionUp = findDirection();
 	  setSpeed();
 	  break;
 	case OPENDOOR:
@@ -122,11 +122,7 @@ int main()
    case DRIVE:
      if (elev_get_floor_sensor_signal() != -1) {
        currentFloor = elev_get_floor_sensor_signal();
-       if (hasOrderInFloor(directionUp, currentFloor))
-	 signalShouldStop = 1;
-       else {
-
-       }
+       if (hasOrderInFloor(directionUp, currentFloor) || findDirection() == !directionUp) signalShouldStop = 1;
      }
      else signalShouldStop = 0;
      break;
@@ -149,24 +145,24 @@ void setSpeed(void) {
    else elev_set_speed(-300);
  }
 
-void setDirection() { // Gjør noe smart..
+int findDirection() {
   int floor = currentFloor;
   if (directionUp == UP) {
     for (floor = floor+1; floor<N_FLOORS; floor++) {
       if (hasOrderInFloor(UP, floor) || hasOrderInFloor(DOWN, floor))
-	    directionUp = UP;
+          return UP;
     }
-    directionUp = DOWN;
+    return DOWN;
   }
   else if (directionUp == DOWN) {
     for (floor = floor-1; floor>=0; floor--) {
       if (hasOrderInFloor(UP, floor) || hasOrderInFloor(DOWN, floor))
-	    directionUp = DOWN;
+	    return DOWN;
     }
-    directionUp = UP;
+    return UP;
   }
   printf("orderqueue error: direction neither up nor down");
-  directionUp = UP;
+  return UP;
 }
 
 void stopElevator(){

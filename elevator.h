@@ -1,4 +1,4 @@
-
+#pragma once
 typedef enum {
   IDLE = 0,
   DRIVE,
@@ -12,7 +12,7 @@ typedef enum {
 void updateSignals(elevatorState curState);
 void setSpeed(void);
 void initElevator(void);
-void setDirection();
+int findDirection();
 void stopElevator(void);
 int getCurrentFloor(void);
 void printStatus();
