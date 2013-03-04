@@ -149,7 +149,7 @@ void setSpeed(void) {
    else elev_set_speed(-300);
  }
 
-void setDirection() {
+void setDirection() { // Gjør noe smart..
   int floor = currentFloor;
   if (directionUp == UP) {
     for (floor = floor+1; floor<N_FLOORS; floor++) {
