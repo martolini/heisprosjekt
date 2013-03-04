@@ -7,8 +7,9 @@ enum {
 
 /**
    Initializing the queue, sets all orders to 0
+ @return Nonzero on success, 0 if failure
 **/
-void initQueue(void);
+int initQueue(void);
 
 /**
    Checking if the elevator has orders 

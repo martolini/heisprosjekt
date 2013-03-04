@@ -9,11 +9,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/**
+ Defining static variables, only invisible in this file
+ **/
 static elevatorState currentState, nextState;
 
 static int directionUp;
 static int currentFloor;
-
+/**
+ All the signals used in the statemachine
+ **/
 static int signalHasOrders;
 static int signalShouldStop;
 static int signalEmergencyStop;
@@ -25,6 +30,8 @@ int initElevator() {
         printf(__FILE__ ": Unable to initialize elevator hardware\n");
         return 0;
     }
+    if (!initQueue)
+        return 0;
   directionUp = 1;
   elev_set_speed(100);
   while (elev_get_floor_sensor_signal()== -1) {

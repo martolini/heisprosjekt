@@ -1,4 +1,8 @@
 #pragma once
+
+/**
+ Defines all the states of the statemachine
+ **/
 typedef enum {
   IDLE = 0,
   DRIVE,

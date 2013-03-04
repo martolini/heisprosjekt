@@ -2,10 +2,12 @@
 #include "elev.h"
 #include <stdio.h>
 
-
+/**
+ Defining the orderqueue, twodimensional array with UP and DOWN (enum) as indexes.
+ **/
 static int orders[2][N_FLOORS];
 
-void initQueue() {
+int initQueue() {
   static int isInitialized = 0;
   if (!isInitialized) {
     int dir, floor;
@@ -15,6 +17,7 @@ void initQueue() {
     }
     isInitialized = 1;
   }
+    return isInitialized;
 }
 
 
