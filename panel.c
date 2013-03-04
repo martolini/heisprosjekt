@@ -45,3 +45,7 @@ void turnOffLightsInFloor(int floor) {
 void updatePanel() {
   checkForOrders();
 }
+
+void turnOnFloorLightIndicator(int floor) {
+    elev_set_floor_indicator(floor);
+}
