@@ -30,7 +30,7 @@ int initElevator() {
         printf(__FILE__ ": Unable to initialize elevator hardware\n");
         return 0;
     }
-    if (!initQueue)
+    if (!initQueue())
         return 0;
   directionUp = 1;
   elev_set_speed(100);
