@@ -41,6 +41,7 @@ int initElevator() {
     currentState = IDLE;
     nextState = IDLE;
     currentFloor = elev_get_floor_sensor_signal();
+    turnOnFloorLightIndicator(currentFloor);
     signalHasOrders = 0;
     signalShouldStop = 0;
     signalEmergencyStop = 0;
