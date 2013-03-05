@@ -129,7 +129,7 @@ void updateSignals(elevatorState curState) {
     switch(curState) {
         case IDLE:
             signalHasOrders = hasOrders();
-            signalShouldStop = (hasOrderInFloor(currentFloor, UP) || hasOrderInFloor(currentFloor, DOWN));
+            signalShouldStop = (hasOrderInFloor(UP, currentFloor) || hasOrderInFloor(DOWN, currentFloor))
             break;
         case DRIVE:
             if (elev_get_floor_sensor_signal() != -1) {
@@ -192,7 +192,7 @@ int getCurrentFloor() {
 }
 
 void printStatus () {
-    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n, hasordersinanydirection = %i", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState, (hasOrderInFloor(currentFloor, UP) || hasOrderInFloor(currentFloor, DOWN)));
+    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
 }
 
 elevatorState getCurrentElevatorState() {
