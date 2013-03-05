@@ -131,7 +131,7 @@ int main()
    case DRIVE:
      if (elev_get_floor_sensor_signal() != -1) {
        currentFloor = elev_get_floor_sensor_signal();
-       if (hasOrderInFloor(directionUp, currentFloor) || findDirection() == !directionUp) signalShouldStop = 1;
+       if (hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
      }
      else signalShouldStop = 0;
      break;
@@ -179,6 +179,7 @@ void stopElevator(){
   else elev_set_speed(100);
   usleep(100000);
   elev_set_speed(0);
+    signalShouldStop = 0;
 }
 
 int getCurrentFloor() {
