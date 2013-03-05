@@ -6,11 +6,6 @@
 
 static int stateEmergencyStop = 0;
 
-enum {
-    LAMP_OFF = 0,
-    LAMP_ON
-};
-
 void checkForOrders() {
     int floor;
     elev_button_type_t buttonType;
