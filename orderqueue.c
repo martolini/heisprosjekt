@@ -7,7 +7,7 @@
  **/
 static int orders[2][N_FLOORS];
 
-int initQueue() {
+int initQueue(void) {
     static int isInitialized = 0;
     if (!isInitialized) {
         int dir, floor;
@@ -21,7 +21,7 @@ int initQueue() {
 }
 
 
-int hasOrders() {
+int hasOrders(void) {
     int floor;
     for (floor = 0; floor<N_FLOORS; floor++) {
         if (orders[DOWN][floor] || orders[UP][floor])
@@ -51,7 +51,7 @@ int hasOrderInFloor(elevatorDirection direction, int floor) {
     return orders[direction][floor];
 }
 
-void deleteAllOrders() {
+void deleteAllOrders(void) {
     int dir, floor;
     for (dir=DOWN; dir<=UP; dir++) {
         for (floor=0; floor<N_FLOORS; floor++)

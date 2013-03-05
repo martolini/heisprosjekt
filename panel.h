@@ -16,11 +16,6 @@ void updatePanel(void);
 void turnOffLightsInFloor(int);
 
 /**
- Turning on floor light indicator.
- **/
-void turnOnFloorLightIndicator(int);
-
-/**
  Turning off all lights
  **/
 void turnOffAllLights(void);

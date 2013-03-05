@@ -25,7 +25,7 @@ static int signalEmergencyStop;
 static int signalTimerIsFinished;
 static int signalObstruction;
 
-int initElevator() {
+int initElevator(void) {
     if (!elev_init()) {
         printf(__FILE__ ": Unable to initialize elevator hardware\n");
         return 0;
@@ -41,7 +41,7 @@ int initElevator() {
     currentState = IDLE;
     nextState = IDLE;
     currentFloor = elev_get_floor_sensor_signal();
-    turnOnFloorLightIndicator(currentFloor);
+    elev_set_floor_indicator(currentFloor);
     signalHasOrders = 0;
     signalShouldStop = 0;
     signalEmergencyStop = 0;
@@ -97,6 +97,8 @@ int main()
                 case IDLE:
                     break;
                 case DRIVE:
+                    if (currentState == EMERGENCYSTOP)
+                        elev_set_stop_lamp(LAMP_OFF);
                     directionUp = findDirection();
                     setSpeed();
                     break;
@@ -104,15 +106,18 @@ int main()
                     if (currentState == DRIVE) stopElevator();
                     deleteOrderInFloor(currentFloor);
                     turnOffLightsInFloor(currentFloor);
+                    elev_set_door_open_lamp(LAMP_ON);
                     startTimer();
                     break;
                 case CLOSEDOOR:
+                    elev_set_door_open_lamp(LAMP_OFF);
                     break;
                 case EMERGENCYSTOP:
                     if (currentState == DRIVE)
                         stopElevator();
                     deleteAllOrders();
                     turnOffAllLights();
+                    elev_set_stop_lamp(LAMP_ON);
                     break;
             }
         }
@@ -135,7 +140,7 @@ void updateSignals(elevatorState curState) {
             int tempFloor = elev_get_floor_sensor_signal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
             if (tempFloor != -1) {
                 currentFloor = tempFloor;
-                turnOnFloorLightIndicator(currentFloor);
+                elev_set_floor_indicator(currentFloor);
                 if (hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
                 else signalShouldStop = 0;
             }
@@ -161,7 +166,7 @@ void setSpeed(void) {
     else elev_set_speed(-300);
 }
 
-elevatorDirection findDirection() {
+elevatorDirection findDirection(void) {
     int floor = currentFloor;
     if (directionUp == UP) {
         for (floor = floor+1; floor<N_FLOORS; floor++) {
@@ -181,22 +186,22 @@ elevatorDirection findDirection() {
     return UP;
 }
 
-void stopElevator(){
+void stopElevator(void){
     if(directionUp==UP) elev_set_speed(-100);
     else elev_set_speed(100);
     usleep(50000);
     elev_set_speed(0);
 }
 
-int getCurrentFloor() {
+int getCurrentFloor(void) {
     return currentFloor;
 }
 
-void printStatus () {
+void printStatus (void) {
     printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
 }
 
-elevatorState getCurrentElevatorState() {
+elevatorState getCurrentElevatorState(void) {
     return currentState;
 }
 

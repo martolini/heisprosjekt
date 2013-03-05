@@ -6,7 +6,7 @@
 /**
  Starting the timer.
  **/
-void startTimer();
+void startTimer(void);
 
 /**
  Checking if the timer is finished.

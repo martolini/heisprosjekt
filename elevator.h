@@ -22,7 +22,7 @@ int initElevator(void);
  Calculating the next direction of the elevator, depending on the orderqueue.
  @return 1 for UP and 0 for DOWN (enum).
  **/
-elevatorDirection findDirection();
+elevatorDirection findDirection(void);
 
 /**
  Stopping the elevator.

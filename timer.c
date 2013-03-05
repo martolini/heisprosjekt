@@ -4,7 +4,7 @@
 
 time_t theTime;
 
-void startTimer() {
+void startTimer(void) {
     theTime = time(NULL);
     printf("timer started\n");
 }
