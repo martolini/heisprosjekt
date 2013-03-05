@@ -18,7 +18,7 @@ void checkForOrders() {
         for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
             if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1))
                 continue;
-            if (buttonType != BUTTON_COMMAND && isEmergencyStop)
+            if (buttonType != BUTTON_COMMAND && stateEmergencyStop)
                 continue;
             int buttonPushed = elev_get_button_signal(buttonType, floor);
             if (buttonPushed) {
@@ -32,7 +32,7 @@ void checkForOrders() {
                         break;
                     case BUTTON_COMMAND: // order recieved inside the elevator
                         addInnerOrder(floor, getCurrentFloor());
-                        if (isEmergencyStop) isEmergencyStop = 0;
+                        if (stateEmergencyStop) stateEmergencyStop = 0;
                         break;
                 }
             }
