@@ -4,7 +4,6 @@
 #include "elevator.h"
 #include "panel.h"
 
-static int stateEmergencyStop = 0;
 
 void checkForOrders() {
     int floor;
@@ -13,7 +12,7 @@ void checkForOrders() {
         for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
             if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1))
                 continue;
-            if (buttonType != BUTTON_COMMAND && stateEmergencyStop)
+            if (buttonType != BUTTON_COMMAND && getCurrentElevatorState() == EMERGENCYSTOP)
                 continue;
             int buttonPushed = elev_get_button_signal(buttonType, floor);
             if (buttonPushed) {
@@ -27,7 +26,6 @@ void checkForOrders() {
                         break;
                     case BUTTON_COMMAND: // order recieved inside the elevator
                         addInnerOrder(floor, getCurrentFloor());
-                        if (stateEmergencyStop) stateEmergencyStop = 0;
                         break;
                 }
             }
@@ -52,9 +50,6 @@ void turnOnFloorLightIndicator(int floor) {
     elev_set_floor_indicator(floor);
 }
 
-void setStateEmergencyStop(int isEmergencyStop) {
-    stateEmergencyStop = isEmergencyStop;
-}
 
 void turnOffAllLights() {
     int floor;

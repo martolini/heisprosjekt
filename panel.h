@@ -21,12 +21,6 @@ void turnOffLightsInFloor(int);
 void turnOnFloorLightIndicator(int);
 
 /**
- Setting the local stateEmergencyStop so the panel knows to only handle inner orders.
- @param isEmergency 1 if the state is emergencystop, 0 otherwise.
- **/
-void setStateEmergencyStop(int);
-
-/**
  Turning off all lights
  **/
 void turnOffAllLights(void);
