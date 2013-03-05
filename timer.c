@@ -5,14 +5,14 @@
 time_t theTime;
 
 void startTimer() {
-  theTime = time(NULL);
+    theTime = time(NULL);
     printf("timer started\n");
 }
 
 int timerIsFinished(double sek) {
-  static time_t timeNow;
-  timeNow = time(NULL);
-  if (difftime(timeNow, theTime) >= sek)
-    return 1;
-  return 0;
+    static time_t timeNow;
+    timeNow = time(NULL);
+    if (difftime(timeNow, theTime) >= sek)
+        return 1;
+    return 0;
 }

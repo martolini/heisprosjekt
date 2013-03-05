@@ -106,6 +106,7 @@ int main()
                 case CLOSEDOOR:
                     break;
                 case EMERGENCYSTOP:
+                    setStateEmergencyStop(1);
                     stopElevator();
                     deleteAllOrders();
                     break;
@@ -116,11 +117,6 @@ int main()
         updateSignals(currentState);
         updatePanel();
         printStatus();
-        // Check if stop button, if so, stop elevator and exit program.
-        if (elev_get_stop_signal()) {
-            elev_set_speed(0);
-            break;
-        }
     }
     return 0;
 }
