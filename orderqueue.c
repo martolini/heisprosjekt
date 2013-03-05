@@ -36,8 +36,6 @@ void addOuterOrder(int direction, int floor) {
 
 void addInnerOrder(int floor, int currentFloor) {
     int direction = DOWN;
-    if (floor==currentFloor)//FINPUSS, SE EMERGENCYSTOPP
-        return;
     if (floor > currentFloor)
         direction = UP;
     orders[direction][floor] = 1;
