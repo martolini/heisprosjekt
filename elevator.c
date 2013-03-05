@@ -107,7 +107,8 @@ int main()
                     break;
                 case EMERGENCYSTOP:
                     setStateEmergencyStop(1);
-                    stopElevator();
+                    if (currentState == DRIVE)
+                        stopElevator();
                     deleteAllOrders();
                     break;
             }
@@ -144,6 +145,7 @@ void updateSignals(elevatorState curState) {
             signalObstruction = elev_get_obstruction_signal();
             break;
         case EMERGENCYSTOP:
+            signalHasOrders = hasOrders();
             break;
     }
     signalEmergencyStop=elev_get_stop_signal();
@@ -189,6 +191,8 @@ int getCurrentFloor() {
 void printStatus () {
     printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
 }
+
+
 
 
 
