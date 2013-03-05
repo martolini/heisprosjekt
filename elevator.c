@@ -133,6 +133,7 @@ int main()
    case DRIVE:
      if (elev_get_floor_sensor_signal() != -1) {
        currentFloor = elev_get_floor_sensor_signal();
+         turnOnFloorLightIndicator(currentFloor);
        if (hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
      }
      else signalShouldStop = 0;
