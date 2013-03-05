@@ -107,7 +107,6 @@ int main()
                 case CLOSEDOOR:
                     break;
                 case EMERGENCYSTOP:
-                    setStateEmergencyStop(1);
                     if (currentState == DRIVE)
                         stopElevator();
                     deleteAllOrders();
