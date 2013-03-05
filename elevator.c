@@ -101,11 +101,9 @@ int main()
                     setSpeed();
                     break;
                 case OPENDOOR:
-                    if (currentState == DRIVE) {
-                        stopElevator();
-                        deleteOrderInFloor(currentFloor);
-                        turnOffLightsInFloor(currentFloor);
-                    }
+                    if (currentState == DRIVE) stopElevator();
+                    deleteOrderInFloor(currentFloor);
+                    turnOffLightsInFloor(currentFloor);
                     startTimer();
                     break;
                 case CLOSEDOOR:
@@ -144,8 +142,6 @@ void updateSignals(elevatorState curState) {
             else signalShouldStop = 0;
             break;
         case OPENDOOR:
-            if (signalShouldStop)
-                signalShouldStop = 0;
             signalTimerIsFinished = timerIsFinished(3);
             break;
         case CLOSEDOOR:
