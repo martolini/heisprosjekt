@@ -10,9 +10,11 @@ void checkForOrders() {
     elev_button_type_t buttonType;
     for (floor=0; floor<N_FLOORS; floor++) {
         for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
-            if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1))
+            if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1)) // There is no downbutton from bottom floor, and no upbutton for topfloor
                 continue;
-            if (buttonType != BUTTON_COMMAND && getCurrentElevatorState() == EMERGENCYSTOP)
+            else if (buttonType != BUTTON_COMMAND && getCurrentElevatorState() == EMERGENCYSTOP) // If the elevator is in EMERGENCYSTOP and order's from the outside, don't do anything
+                continue;
+            else if ((getCurrentElevatorState() == OPENDOOR || getCurrentElevatorState() == CLOSEDOOR) && floor == getCurrentFloor()) // If an order comes from the current floor when the elevator is in either CLOSEDOOR or OPENDOOR, don't do anything.
                 continue;
             int buttonPushed = elev_get_button_signal(buttonType, floor);
             if (buttonPushed) {
