@@ -38,6 +38,8 @@ void checkForOrders() {
 void turnOffLightsInFloor(int floor) {
   elev_button_type_t buttonType;
   for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
+      if (buttonType == BUTTON_CALL_DOWN && floor == 0 || buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1)
+          continue;
     elev_set_button_lamp(buttonType, floor, LAMP_OFF);
   }
 }
