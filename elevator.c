@@ -85,7 +85,7 @@ int main()
                 else nextState = IDLE;
                 break;
             case EMERGENCYSTOP:
-                if (signalHasOrders) nextState = DRIVE;
+                if (signalHasOrders) nextState = CLOSEDOOR; // Making sure doors are closed and everything's in order before continuing.
                 else nextState = EMERGENCYSTOP;
                 break;
         }
