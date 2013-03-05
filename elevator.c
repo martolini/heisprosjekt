@@ -110,7 +110,7 @@ int main()
                     if (currentState == DRIVE)
                         stopElevator();
                     deleteAllOrders();
-                    //turnOffAllLights();
+                    turnOffAllLights();
                     break;
             }
         }
@@ -139,7 +139,6 @@ void updateSignals(elevatorState curState) {
             break;
         case OPENDOOR:
             signalTimerIsFinished = timerIsFinished(3);
-            //if (signalShouldStop) signalShouldStop = 0;
             break;
         case CLOSEDOOR:
             signalHasOrders = hasOrders();
