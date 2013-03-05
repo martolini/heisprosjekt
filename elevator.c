@@ -96,9 +96,11 @@ int main()
 	  setSpeed();
 	  break;
 	case OPENDOOR:
+            if (currentState == DRIVE) {
 	  stopElevator();
 	  deleteOrderInFloor(currentFloor);
 	  turnOffLightsInFloor(currentFloor);
+            }
 	  startTimer();
 	  break;
 	case CLOSEDOOR:
