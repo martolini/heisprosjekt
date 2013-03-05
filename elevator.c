@@ -192,7 +192,7 @@ int getCurrentFloor() {
 }
 
 void printStatus () {
-    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
+    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n, hasordersinanydirection = %i", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState, (hasOrderInFloor(currentFloor, UP) || hasOrderInFloor(currentFloor, DOWN)));
 }
 
 elevatorState getCurrentElevatorState() {
