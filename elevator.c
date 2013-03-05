@@ -64,7 +64,8 @@ int main()
         switch (currentState) {
             case IDLE:
                 if (signalHasOrders) {
-                    if (signalShouldStop) nextState = OPENDOOR;
+                    if (signalShouldStop)
+                        nextState = OPENDOOR;
                     else nextState = DRIVE;
                 }
                 else nextState = IDLE;
@@ -143,6 +144,8 @@ void updateSignals(elevatorState curState) {
             else signalShouldStop = 0;
             break;
         case OPENDOOR:
+            if (signalShouldStop)
+                signalShouldStop = 0;
             signalTimerIsFinished = timerIsFinished(3);
             break;
         case CLOSEDOOR:
