@@ -194,7 +194,7 @@ void printStatus () {
 }
 
 elevatorState getCurrentElevatorState() {
-    return elevatorState;
+    return currentState;
 }
 
 
