@@ -187,7 +187,7 @@ int getCurrentFloor() {
 }
 
 void printStatus () {
-  printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop);
+  printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
 }
 
 
