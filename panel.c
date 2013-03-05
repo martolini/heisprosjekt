@@ -60,3 +60,9 @@ void turnOnFloorLightIndicator(int floor) {
 void setStateEmergencyStop(int isEmergencyStop) {
     stateEmergencyStop = isEmergencyStop;
 }
+
+void turnOffAllLights() {
+    int floor;
+    for (floor = 0; floor<N_FLOORS; floor++)
+        turnOffLightsInFloor(floor);
+}
