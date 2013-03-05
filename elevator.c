@@ -63,11 +63,7 @@ int main()
     while (1) {
         switch (currentState) {
             case IDLE:
-                if (signalHasOrders) {
-                    if (signalShouldStop)
-                        nextState = OPENDOOR;
-                    else nextState = DRIVE;
-                }
+                if (signalHasOrders) nextState = DRIVE;
                 else nextState = IDLE;
                 break;
                 
@@ -131,7 +127,6 @@ void updateSignals(elevatorState curState) {
     switch(curState) {
         case IDLE:
             signalHasOrders = hasOrders();
-            signalShouldStop = (hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp));
             break;
         case DRIVE:
             if (elev_get_floor_sensor_signal() != -1) {
