@@ -129,8 +129,7 @@ void updateSignals(elevatorState curState) {
     switch(curState) {
         case IDLE:
             signalHasOrders = hasOrders();
-            if (hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
-            else signalShouldStop = 0;
+            signalShouldStop = (hasOrderInFloor(currentFloor, UP) || hasOrderInFloor(currentFloor, DOWN));
             break;
         case DRIVE:
             if (elev_get_floor_sensor_signal() != -1) {
