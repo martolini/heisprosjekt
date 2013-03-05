@@ -131,7 +131,7 @@ void updateSignals(elevatorState curState) {
             signalHasOrders = hasOrders();
             signalShouldStop = (hasOrderInFloor(UP, currentFloor) || hasOrderInFloor(DOWN, currentFloor));
             break;
-        case DRIVE:
+        case DRIVE:;
             int tempFloor = elev_get_floor_sensor_signal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
             if (tempFloor != -1) {
                 currentFloor = tempFloor;
