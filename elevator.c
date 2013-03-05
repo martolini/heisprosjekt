@@ -97,8 +97,6 @@ int main()
                 case IDLE:
                     break;
                 case DRIVE:
-                    if (currentState == EMERGENCYSTOP)
-                        elev_set_stop_lamp(LAMP_OFF);
                     directionUp = findDirection();
                     setSpeed();
                     break;
@@ -110,6 +108,7 @@ int main()
                     startTimer();
                     break;
                 case CLOSEDOOR:
+                    if (currentState == EMERGENCYSTOP) elev_set_stop_lamp(LAMP_OFF);
                     elev_set_door_open_lamp(LAMP_OFF);
                     break;
                 case EMERGENCYSTOP:
