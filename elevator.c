@@ -110,7 +110,7 @@ int main()
                     if (currentState == DRIVE)
                         stopElevator();
                     deleteAllOrders();
-                    turnOffAllLights();
+                    //turnOffAllLights();
                     break;
             }
         }
