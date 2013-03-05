@@ -1,9 +1,5 @@
 #pragma once
-
-enum {
-  DOWN = 0,
-  UP = 1
-};
+#include "globals.h"
 
 /**
    Initializing the queue, sets all orders to 0
@@ -22,7 +18,7 @@ int hasOrders(void);
    @param1 direction The direction the order is in (user pressed up/down)
    @param2 floor The floor from which the order is recieved
 **/
-void addOuterOrder(int, int);
+void addOuterOrder(elevatorDirection, int);
 
 /**
  Adding order from inside the elevator
@@ -42,7 +38,7 @@ void deleteOrderInFloor(int);
  @param1 direction Whether the user is going up or down
  @param2 floor The endpoint of the order
  **/
-int hasOrderInFloor(int, int);
+int hasOrderInFloor(elevatorDirection, int);
 
 /**
  Deleting all orders, used for the state EMERGENCYSTOP.

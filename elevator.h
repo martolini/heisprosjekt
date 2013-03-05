@@ -1,16 +1,6 @@
 #pragma once
 
-/**
- Defines all the states of the statemachine
- **/
-typedef enum {
-  IDLE = 0,
-  DRIVE,
-  OPENDOOR,
-  CLOSEDOOR,
-  EMERGENCYSTOP
-} elevatorState;
-
+#include "globals.h"
 
 /**
  Updating all the signals for the statemachine, dependant on the state
@@ -32,7 +22,7 @@ int initElevator(void);
  Calculating the next direction of the elevator, depending on the orderqueue.
  @return 1 for UP and 0 for DOWN (enum).
  **/
-int findDirection();
+elevatorDirection findDirection();
 
 /**
  Stopping the elevator.
@@ -48,4 +38,9 @@ int getCurrentFloor(void);
 /**
  Prints the status of the elevator with states and signals. Mainly for debugging.
  **/
-void printStatus();
+void printStatus(void);
+
+/**
+ Returns the current state of the elevator
+ **/
+elevatorState getCurrentElevatorState(void);

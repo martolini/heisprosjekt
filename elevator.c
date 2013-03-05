@@ -14,7 +14,7 @@
  **/
 static elevatorState currentState, nextState;
 
-static int directionUp;
+static elevatorDirection directionUp;
 static int currentFloor;
 /**
  All the signals used in the statemachine
@@ -158,7 +158,7 @@ void setSpeed(void) {
     else elev_set_speed(-300);
 }
 
-int findDirection() {
+elevatorDirection findDirection() {
     int floor = currentFloor;
     if (directionUp == UP) {
         for (floor = floor+1; floor<N_FLOORS; floor++) {
@@ -191,6 +191,10 @@ int getCurrentFloor() {
 
 void printStatus () {
     printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
+}
+
+elevatorState getCurrentElevatorState() {
+    return elevatorState;
 }
 
 

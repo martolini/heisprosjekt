@@ -30,7 +30,7 @@ int hasOrders() {
     return 0;
 }
 
-void addOuterOrder(int direction, int floor) {
+void addOuterOrder(elevatorDirection direction, int floor) {
     orders[direction][floor] = 1;
 }
 
@@ -47,7 +47,7 @@ void deleteOrderInFloor(int floor) {
         orders[dir][floor] = 0;
 }
 
-int hasOrderInFloor(int direction, int floor) {
+int hasOrderInFloor(elevatorDirection direction, int floor) {
     return orders[direction][floor];
 }
 
