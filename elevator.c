@@ -177,7 +177,7 @@ int findDirection() {
 void stopElevator(){
   if(directionUp==UP) elev_set_speed(-100);
   else elev_set_speed(100);
-  usleep(100000);
+  usleep(10000);
   elev_set_speed(0);
     signalShouldStop = 0;
 }
