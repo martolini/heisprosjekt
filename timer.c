@@ -6,17 +6,17 @@
 
 
 static time_t theTime;
-static timeval timeStart;
+static timeval *timeStart;
 
 void timer_start(void) {
     theTime = time(NULL);
-    gettimeofday(&timeStart);
+    gettimeofday(timeStart);
     printf("timer started\n");
 }
 
 int timer_timerIsFinished(double sek) {
-    static timeval timeNow;
-    gettimeofday(&timeNow);
+    static timeval *timeNow;
+    gettimeofday(timeNow);
     double diff = timeNow.tv_usec-timeStart.tv_usec;
     if (diff >= 3)
         return 1;
