@@ -44,7 +44,7 @@ void panel_checkForOrders(void) {
                         oq_addOuterOrder(DOWN, floor);
                         break;
                     case BUTTON_COMMAND: // order recieved inside the elevator
-                        oq_addInnerOrder(floor, getCurrentFloor());
+                        oq_addInnerOrder(floor, elev_getCurrentFloor());
                         break;
                 }
             }
