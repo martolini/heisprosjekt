@@ -223,6 +223,30 @@ void setDirectionAndSpeed() {
     else elev_set_speed(-300);
 }
 
+void elev_set_speed(int speed)
+{
+    // In order to sharply stop the elevator, the direction bit is toggled
+    // before setting speed to zero.
+    static int last_speed = 0;
+    
+    // If to start (speed > 0)
+    if (speed > 0)
+        io_clear_bit(MOTORDIR);
+    else if (speed < 0)
+        io_set_bit(MOTORDIR);
+    
+    // If to stop (speed == 0)
+    else if (last_speed < 0)
+        io_clear_bit(MOTORDIR);
+    else if (last_speed > 0)
+        io_set_bit(MOTORDIR);
+    
+    last_speed = speed ;
+    
+    // Write new setting to motor.
+    io_write_analog(MOTOR, 2048 + 4*abs(speed));
+}
+
 
 
 
