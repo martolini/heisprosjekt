@@ -21,13 +21,13 @@ void panel_checkForOrders(void) {
                 elev_set_button_lamp(buttonType, floor, LAMP_ON);
                 switch(buttonType) {
                     case BUTTON_CALL_UP:
-                        addOuterOrder(UP, floor);
+                        oq_addOuterOrder(UP, floor);
                         break;
                     case BUTTON_CALL_DOWN:
-                        addOuterOrder(DOWN, floor);
+                        oq_addOuterOrder(DOWN, floor);
                         break;
                     case BUTTON_COMMAND: // order recieved inside the elevator
-                        addInnerOrder(floor, getCurrentFloor());
+                        oq_addInnerOrder(floor, getCurrentFloor());
                         break;
                 }
             }
