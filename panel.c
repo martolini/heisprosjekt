@@ -67,7 +67,7 @@ void panel_turnOffAllLights(void) {
         panel_turnOffLightsInFloor(floor);
 }
 
-void elev_set_door_open_lamp(int value) {
+void panel_setDoorOpenLamp(int value) {
     if (value)
         io_set_bit(DOOR_OPEN);
     else
