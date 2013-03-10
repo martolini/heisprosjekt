@@ -31,7 +31,7 @@ int initElevator(void) {
         printf(__FILE__ ": Unable to initialize elevator hardware\n");
         return 0;
     }
-    if (!initQueue())
+    if (!oq_init()())
         return 0;
     directionUp = 1;
     elev_set_speed(100);
@@ -102,10 +102,10 @@ int main()
                     break;
                 case OPENDOOR:
                     if (currentState == DRIVE) stopElevator();
-                    deleteOrderInFloor(currentFloor);
-                    turnOffLightsInFloor(currentFloor);
+                    oq_deleteOrderInFloor(currentFloor);
+                    panel_turnOffLightsInFloor(currentFloor);
                     elev_set_door_open_lamp(LAMP_ON);
-                    startTimer();
+                    timer_start();
                     break;
                 case CLOSEDOOR:
                     if (currentState == EMERGENCYSTOP) elev_set_stop_lamp(LAMP_OFF);
@@ -114,8 +114,8 @@ int main()
                 case EMERGENCYSTOP:
                     if (currentState == DRIVE)
                         stopElevator();
-                    deleteAllOrders();
-                    turnOffAllLights();
+                    oq_deleteAllOrders();
+                    panel_turnOffAllLights();
                     elev_set_stop_lamp(LAMP_ON);
                     break;
             }
@@ -123,7 +123,7 @@ int main()
         
         currentState = nextState;
         updateSignals(currentState);
-        updatePanel();
+        panel_checkForOrders();
         printStatus();
     }
     return 0;
@@ -132,28 +132,28 @@ int main()
 void updateSignals(elevatorState curState) {
     switch(curState) {
         case IDLE:
-            signalHasOrders = hasOrders();
-            signalShouldStop = (hasOrderInFloor(UP, currentFloor) || hasOrderInFloor(DOWN, currentFloor));
+            signalHasOrders = oq_hasOrders();
+            signalShouldStop = (oq_hasOrderInFloor(UP, currentFloor) || oq_hasOrderInFloor(DOWN, currentFloor));
             break;
         case DRIVE:;
             int tempFloor = elev_get_floor_sensor_signal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
             if (tempFloor != -1) {
                 currentFloor = tempFloor;
                 elev_set_floor_indicator(currentFloor);
-                if (hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
+                if (oq_hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
                 else signalShouldStop = 0;
             }
             else signalShouldStop = 0;
             break;
         case OPENDOOR:
-            signalTimerIsFinished = timerIsFinished(3);
+            signalTimerIsFinished = timer_timerIsFinished(3);
             break;
         case CLOSEDOOR:
-            signalHasOrders = hasOrders();
+            signalHasOrders = oq_hasOrders();
             signalObstruction = elev_get_obstruction_signal();
             break;
         case EMERGENCYSTOP:
-            signalHasOrders = hasOrders();
+            signalHasOrders = oq_hasOrders();
             break;
     }
     signalEmergencyStop=elev_get_stop_signal();
@@ -163,14 +163,14 @@ elevatorDirection findDirection(void) {
     int floor = currentFloor;
     if (directionUp == UP) {
         for (floor = floor+1; floor<N_FLOORS; floor++) {
-            if (hasOrderInFloor(UP, floor) || hasOrderInFloor(DOWN, floor))
+            if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor))
                 return UP;
         }
         return DOWN;
     }
     else if (directionUp == DOWN) {
         for (floor = floor-1; floor>=0; floor--) {
-            if (hasOrderInFloor(UP, floor) || hasOrderInFloor(DOWN, floor))
+            if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor))
                 return DOWN;
         }
         return UP;

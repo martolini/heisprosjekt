@@ -5,7 +5,7 @@
 #include "panel.h"
 
 
-void checkForOrders(void) {
+void panel_checkForOrders(void) {
     int floor;
     elev_button_type_t buttonType;
     for (floor=0; floor<N_FLOORS; floor++) {
@@ -35,7 +35,7 @@ void checkForOrders(void) {
     }
 }
 
-void turnOffLightsInFloor(int floor) {
+void panel_turnOffLightsInFloor(int floor) {
     elev_button_type_t buttonType;
     for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
         if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1))
@@ -44,12 +44,12 @@ void turnOffLightsInFloor(int floor) {
     }
 }
 
-void updatePanel(void) {
+void panel_updatePanel(void) {
     checkForOrders();
 }
 
 
-void turnOffAllLights(void) {
+void panel_turnOffAllLights(void) {
     int floor;
     for (floor = 0; floor<N_FLOORS; floor++)
         turnOffLightsInFloor(floor);

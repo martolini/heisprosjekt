@@ -3,19 +3,19 @@
 /**
  Constantly checking for incoming orders. Telling the orderqueue if any buttons are clicked.
  **/
-void checkForOrders(void);
+void panel_checkForOrders(void);
 
 /**
  Updating everything on the panel.
  **/
-void updatePanel(void);
+void panel_updatePanel(void);
 
 /**
  Turning off all panel-light in a given floor.
  **/
-void turnOffLightsInFloor(int);
+void panel_turnOffLightsInFloor(int);
 
 /**
  Turning off all lights
  **/
-void turnOffAllLights(void);
+void panel_turnOffAllLights(void);

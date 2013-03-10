@@ -7,7 +7,7 @@
  **/
 static int orders[2][N_FLOORS];
 
-int initQueue(void) {
+int oq_init(void) {
     static int isInitialized = 0;
     if (!isInitialized) {
         int dir, floor;
@@ -21,7 +21,7 @@ int initQueue(void) {
 }
 
 
-int hasOrders(void) {
+int oq_hasOrders(void) {
     int floor;
     for (floor = 0; floor<N_FLOORS; floor++) {
         if (orders[DOWN][floor] || orders[UP][floor])
@@ -30,28 +30,28 @@ int hasOrders(void) {
     return 0;
 }
 
-void addOuterOrder(elevatorDirection direction, int floor) {
+void oq_addOuterOrder(elevatorDirection direction, int floor) {
     orders[direction][floor] = 1;
 }
 
-void addInnerOrder(int floor, int currentFloor) {
+void oq_addInnerOrder(int floor, int currentFloor) {
     int direction = DOWN;
     if (floor > currentFloor)
         direction = UP;
     orders[direction][floor] = 1;
 }
 
-void deleteOrderInFloor(int floor) {
+void oq_deleteOrderInFloor(int floor) {
     int dir;
     for (dir=DOWN; dir<= UP; dir++)
         orders[dir][floor] = 0;
 }
 
-int hasOrderInFloor(elevatorDirection direction, int floor) {
+int oq_hasOrderInFloor(elevatorDirection direction, int floor) {
     return orders[direction][floor];
 }
 
-void deleteAllOrders(void) {
+void oq_deleteAllOrders(void) {
     int dir, floor;
     for (dir=DOWN; dir<=UP; dir++) {
         for (floor=0; floor<N_FLOORS; floor++)
