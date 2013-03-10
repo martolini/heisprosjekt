@@ -3,6 +3,14 @@
 #include "globals.h"
 
 /**
+ Sets the speed of the elevator.
+ @param speed New speed of elevator. Positive values denote upward movement
+ and vice versa. Set speed to 0 to stop the elevator. From -300 to 300 gives
+ sensible speeds.
+ */
+void elev_set_speed(int speed);
+
+/**
  Updating all the signals for the statemachine, dependant on the state
  **/
 void updateSignals(elevatorState curState);

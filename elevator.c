@@ -6,6 +6,8 @@
 #include "orderqueue.h"
 #include "timer.h"
 #include "panel.h"
+#include "io.h"
+
 #include <stdio.h>
 #include <unistd.h>
 
@@ -27,22 +29,38 @@ static int signalTimerIsFinished;
 static int signalObstruction;
 
 int initElevator(void) {
-    if (!elev_init()) {
-        printf(__FILE__ ": Unable to initialize elevator hardware\n");
+    int i;
+    // Init hardware
+    if (!io_init())
         return 0;
+    
+    // Zero all floor button lamps
+    for (i = 0; i < N_FLOORS; ++i) {
+        if (i != 0)
+            panel_setButtonLamp(BUTTON_CALL_DOWN, i, 0);
+        
+        if (i != N_FLOORS-1)
+            panel_setButtonLamp(BUTTON_CALL_UP, i, 0);
+        
+        panel_setButtonLamp(BUTTON_COMMAND, i, 0);
     }
+    
+    // Clear stop lamp, door open lamp, and set floor indicator to ground floor.
+    panel_setStopLamp(0);
+    panel_setDoorOpenLamp(0);
+    panel_setFloorIndicator(0);
     if (!oq_init())
         return 0;
     directionUp = 1;
     elev_set_speed(100);
-    while (elev_get_floor_sensor_signal()== -1) {
+    while (panel_getFloorSensorSignal()== -1) {
         ;
     }
     stopElevator();
     currentState = IDLE;
     nextState = IDLE;
-    currentFloor = elev_get_floor_sensor_signal();
-    elev_set_floor_indicator(currentFloor);
+    currentFloor = panel_getFloorSensorSignal();
+    panel_setFloorIndicator(currentFloor);
     signalHasOrders = 0;
     signalShouldStop = 0;
     signalEmergencyStop = 0;
@@ -104,19 +122,19 @@ int main()
                     if (currentState == DRIVE) stopElevator();
                     oq_deleteOrderInFloor(currentFloor);
                     panel_turnOffLightsInFloor(currentFloor);
-                    elev_set_door_open_lamp(LAMP_ON);
+                    panel_setDoorOpenLamp(LAMP_ON);
                     timer_start();
                     break;
                 case CLOSEDOOR:
-                    if (currentState == EMERGENCYSTOP) elev_set_stop_lamp(LAMP_OFF);
-                    elev_set_door_open_lamp(LAMP_OFF);
+                    if (currentState == EMERGENCYSTOP) panel_setStopLamp(LAMP_OFF);
+                    panel_setDoorOpenLamp(LAMP_OFF);
                     break;
                 case EMERGENCYSTOP:
                     if (currentState == DRIVE)
                         stopElevator();
                     oq_deleteAllOrders();
                     panel_turnOffAllLights();
-                    elev_set_stop_lamp(LAMP_ON);
+                    panel_setStopLamp(LAMP_ON);
                     break;
             }
         }
@@ -136,10 +154,10 @@ void updateSignals(elevatorState curState) {
             signalShouldStop = (oq_hasOrderInFloor(UP, currentFloor) || oq_hasOrderInFloor(DOWN, currentFloor));
             break;
         case DRIVE:;
-            int tempFloor = elev_get_floor_sensor_signal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
+            int tempFloor = panel_getFloorSensorSignal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
             if (tempFloor != -1) {
                 currentFloor = tempFloor;
-                elev_set_floor_indicator(currentFloor);
+                panel_setFloorIndicator(currentFloor);
                 if (oq_hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
                 else signalShouldStop = 0;
             }
@@ -150,13 +168,13 @@ void updateSignals(elevatorState curState) {
             break;
         case CLOSEDOOR:
             signalHasOrders = oq_hasOrders();
-            signalObstruction = elev_get_obstruction_signal();
+            signalObstruction = panel_getObstructionSignal();
             break;
         case EMERGENCYSTOP:
             signalHasOrders = oq_hasOrders();
             break;
     }
-    signalEmergencyStop=elev_get_stop_signal();
+    signalEmergencyStop=panel_getStopSignal();
 }
 
 elevatorDirection findDirection(void) {
