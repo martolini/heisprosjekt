@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <stdio.h>
-#include "elev.h"
 #include "orderqueue.h"
 #include "elevator.h"
 #include "panel.h"
