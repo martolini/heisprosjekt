@@ -31,7 +31,7 @@ int initElevator(void) {
         printf(__FILE__ ": Unable to initialize elevator hardware\n");
         return 0;
     }
-    if (!oq_init()())
+    if (!oq_init())
         return 0;
     directionUp = 1;
     elev_set_speed(100);
@@ -191,7 +191,7 @@ int getCurrentFloor(void) {
 }
 
 void printStatus (void) {
-    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, hasOrders(), directionUp, signalShouldStop, currentState, nextState);
+    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, oq_hasOrders(), directionUp, signalShouldStop, currentState, nextState);
 }
 
 elevatorState getCurrentElevatorState(void) {
