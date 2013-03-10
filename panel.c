@@ -7,6 +7,21 @@
 #include "channels.h"
 
 
+// Number of signals and lamps on a per-floor basis (excl sensor)
+#define N_BUTTONS 3
+
+
+// Matrix of lamp channels indexed by floor and button type. Excuse ugly macro.
+#define LCM_SET(f) {LIGHT##f##_UP, LIGHT##f##_DOWN, LIGHT##f##_COMMAND}
+static const int lamp_channel_matrix[N_FLOORS][N_BUTTONS] =
+{LCM_SET(1), LCM_SET(2), LCM_SET(3), LCM_SET(4)};
+
+
+// Matrix of elevator button signal channels indexed by floor and button type.
+#define SCM_SET(f) { FLOOR##f##_UP, FLOOR##f##_DOWN, FLOOR##f##_COMMAND }
+static const int button_channel_matrix[N_FLOORS][N_BUTTONS] =
+{SCM_SET(1), SCM_SET(2), SCM_SET(3), SCM_SET(4)};
+
 void panel_checkForOrders(void) {
     int floor;
     elev_button_type_t buttonType;
