@@ -7,10 +7,6 @@
  **/
 void updateSignals(elevatorState curState);
 
-/**
- Setting the speed of the elevator, checking for direction
- **/
-void setSpeed(void);
 
 /**
  Initializing the elevator
@@ -36,11 +32,16 @@ void stopElevator(void);
 int getCurrentFloor(void);
 
 /**
- Prints the status of the elevator with states and signals. Mainly for debugging.
- **/
-void printStatus(void);
-
-/**
  Returns the current state of the elevator
  **/
 elevatorState getCurrentElevatorState(void);
+
+/**
+ Setting the direction and speed of the elevator
+ **/
+void setDirectionAndSpeed(void);
+
+/**
+ Prints the status of the elevator with states and signals. Mainly for debugging.
+ **/
+void printStatus(void);

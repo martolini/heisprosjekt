@@ -19,6 +19,7 @@ static int currentFloor;
 /**
  All the signals used in the statemachine
  **/
+
 static int signalHasOrders;
 static int signalShouldStop;
 static int signalEmergencyStop;
@@ -97,8 +98,7 @@ int main()
                 case IDLE:
                     break;
                 case DRIVE:
-                    directionUp = findDirection();
-                    setSpeed();
+                    setDirectionAndSpeed();
                     break;
                 case OPENDOOR:
                     if (currentState == DRIVE) stopElevator();
@@ -159,12 +159,6 @@ void updateSignals(elevatorState curState) {
     signalEmergencyStop=elev_get_stop_signal();
 }
 
-void setSpeed(void) {
-    if (directionUp == UP)
-        elev_set_speed(300);
-    else elev_set_speed(-300);
-}
-
 elevatorDirection findDirection(void) {
     int floor = currentFloor;
     if (directionUp == UP) {
@@ -202,6 +196,13 @@ void printStatus (void) {
 
 elevatorState getCurrentElevatorState(void) {
     return currentState;
+}
+
+void setDirectionAndSpeed() {
+    directionUp = findDirection();
+    if (directionUp == UP)
+        elev_set_speed(300);
+    else elev_set_speed(-300);
 }
 
 
