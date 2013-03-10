@@ -58,7 +58,7 @@ int panel_getButtonSignal(elev_button_type_t button, int floor);
  @param floor Floor of lamp to set. Must be 0-3
  @param value Non-zero value turns lamp on, 0 turns lamp off.
  */
-void panel_setButtomLamp(elev_button_type_t button, int floor, int value);
+void panel_setButtonLamp(elev_button_type_t button, int floor, int value);
 
 /**
  Updating everything on the panel.
