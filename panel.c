@@ -44,13 +44,8 @@ void panel_turnOffLightsInFloor(int floor) {
     }
 }
 
-void panel_updatePanel(void) {
-    checkForOrders();
-}
-
-
 void panel_turnOffAllLights(void) {
     int floor;
     for (floor = 0; floor<N_FLOORS; floor++)
-        turnOffLightsInFloor(floor);
+        panel_turnOffLightsInFloor(floor);
 }
