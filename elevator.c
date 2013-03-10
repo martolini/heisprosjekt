@@ -173,7 +173,13 @@ void elev_updateSignals(elevatorState curState) {
             signalObstruction = panel_getObstructionSignal();
             break;
         case EMERGENCYSTOP:
+            int tempFloor = panel_getFloorSensorSignal();
+            if (tempFloor != -1) {
+                currentFloor = tempFloor;
+                panel_setFloorIndicator(currentFloor);
+            }
             signalHasOrders = oq_hasOrders();
+            
             break;
     }
     signalEmergencyStop=panel_getStopSignal();
