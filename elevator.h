@@ -8,46 +8,46 @@
  and vice versa. Set speed to 0 to stop the elevator. From -300 to 300 gives
  sensible speeds.
  */
-void elev_set_speed(int speed);
+void elev_setSpeed(int speed);
 
 /**
  Updating all the signals for the statemachine, dependant on the state
  **/
-void updateSignals(elevatorState curState);
+void elev_updateSignals(elevatorState curState);
 
 
 /**
  Initializing the elevator
  @return Nonzero on success, 0 on failure.
  **/
-int initElevator(void);
+int elev_init(void);
 
 /**
  Calculating the next direction of the elevator, depending on the orderqueue.
  @return 1 for UP and 0 for DOWN (enum).
  **/
-elevatorDirection findDirection(void);
+elevatorDirection elev_findDirection(void);
 
 /**
  Stopping the elevator.
  **/
-void stopElevator(void);
+void elev_stop(void);
 
 /**
  Returning the current floor
  @return the current floor, 0-indexed.
  **/
-int getCurrentFloor(void);
+int elev_getCurrentFloor(void);
 
 /**
  Returns the current state of the elevator
  **/
-elevatorState getCurrentElevatorState(void);
+elevatorState elev_getCurrentElevatorState(void);
 
 /**
  Setting the direction and speed of the elevator
  **/
-void setDirectionAndSpeed(void);
+void elev_setDirectionAndSpeed(void);
 
 /**
  Prints the status of the elevator with states and signals. Mainly for debugging.

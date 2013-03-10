@@ -29,7 +29,7 @@ static int signalEmergencyStop;
 static int signalTimerIsFinished;
 static int signalObstruction;
 
-int initElevator(void) {
+int elev_init(void) {
     int i;
     // Init hardware
     if (!io_init())
@@ -53,11 +53,11 @@ int initElevator(void) {
     if (!oq_init())
         return 0;
     directionUp = 1;
-    elev_set_speed(100);
+    elev_setSpeed(100);
     while (panel_getFloorSensorSignal()== -1) {
         ;
     }
-    stopElevator();
+    elev_stop();
     currentState = IDLE;
     nextState = IDLE;
     currentFloor = panel_getFloorSensorSignal();
@@ -76,7 +76,7 @@ int main()
     printf("Initializing elevator");
     
     
-    initElevator();
+    elev_init();
     
     printf("Press STOP button to stop elevator and exit program.\n");
     
@@ -117,10 +117,10 @@ int main()
                 case IDLE:
                     break;
                 case DRIVE:
-                    setDirectionAndSpeed();
+                    elev_setDirectionAndSpeed();
                     break;
                 case OPENDOOR:
-                    if (currentState == DRIVE) stopElevator();
+                    if (currentState == DRIVE) elev_stop();
                     oq_deleteOrderInFloor(currentFloor);
                     panel_turnOffLightsInFloor(currentFloor);
                     panel_setDoorOpenLamp(LAMP_ON);
@@ -132,7 +132,7 @@ int main()
                     break;
                 case EMERGENCYSTOP:
                     if (currentState == DRIVE)
-                        stopElevator();
+                        elev_stop();
                     oq_deleteAllOrders();
                     panel_turnOffAllLights();
                     panel_setStopLamp(LAMP_ON);
@@ -141,14 +141,14 @@ int main()
         }
         
         currentState = nextState;
-        updateSignals(currentState);
+        elev_updateSignals(currentState);
         panel_checkForOrders();
         printStatus();
     }
     return 0;
 }
 
-void updateSignals(elevatorState curState) {
+void elev_updateSignals(elevatorState curState) {
     switch(curState) {
         case IDLE:
             signalHasOrders = oq_hasOrders();
@@ -159,7 +159,7 @@ void updateSignals(elevatorState curState) {
             if (tempFloor != -1) {
                 currentFloor = tempFloor;
                 panel_setFloorIndicator(currentFloor);
-                if (oq_hasOrderInFloor(directionUp, currentFloor) || (findDirection() == !directionUp)) signalShouldStop = 1;
+                if (oq_hasOrderInFloor(directionUp, currentFloor) || (elev_findDirection() == !directionUp)) signalShouldStop = 1;
                 else signalShouldStop = 0;
             }
             else signalShouldStop = 0;
@@ -178,7 +178,7 @@ void updateSignals(elevatorState curState) {
     signalEmergencyStop=panel_getStopSignal();
 }
 
-elevatorDirection findDirection(void) {
+elevatorDirection elev_findDirection(void) {
     int floor = currentFloor;
     if (directionUp == UP) {
         for (floor = floor+1; floor<N_FLOORS; floor++) {
@@ -198,14 +198,14 @@ elevatorDirection findDirection(void) {
     return UP;
 }
 
-void stopElevator(void){
-    if(directionUp==UP) elev_set_speed(-100);
-    else elev_set_speed(100);
+void elev_stop(void){
+    if(directionUp==UP) elev_setSpeed(-100);
+    else elev_setSpeed(100);
     usleep(50000);
-    elev_set_speed(0);
+    elev_setSpeed(0);
 }
 
-int getCurrentFloor(void) {
+int elev_getCurrentFloor(void) {
     return currentFloor;
 }
 
@@ -213,18 +213,18 @@ void printStatus (void) {
     printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, nextState = %i\n", currentFloor, oq_hasOrders(), directionUp, signalShouldStop, currentState, nextState);
 }
 
-elevatorState getCurrentElevatorState(void) {
+elevatorState elev_getCurrentElevatorState(void) {
     return currentState;
 }
 
-void setDirectionAndSpeed() {
-    directionUp = findDirection();
+void elev_setDirectionAndSpeed() {
+    directionUp = elev_findDirection();
     if (directionUp == UP)
-        elev_set_speed(300);
-    else elev_set_speed(-300);
+        elev_setSpeed(300);
+    else elev_setSpeed(-300);
 }
 
-void elev_set_speed(int speed)
+void elev_setSpeed(int speed)
 {
     // In order to sharply stop the elevator, the direction bit is toggled
     // before setting speed to zero.

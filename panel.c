@@ -29,9 +29,9 @@ void panel_checkForOrders(void) {
         for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
             if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1)) // There is no downbutton from bottom floor, and no upbutton for topfloor
                 continue;
-            else if (buttonType != BUTTON_COMMAND && getCurrentElevatorState() == EMERGENCYSTOP) // If the elevator is in EMERGENCYSTOP and order's from the outside, don't do anything
+            else if (buttonType != BUTTON_COMMAND && elev_getCurrentElevatorState() == EMERGENCYSTOP) // If the elevator is in EMERGENCYSTOP and order's from the outside, don't do anything
                 continue;
-            else if ((getCurrentElevatorState() == OPENDOOR || getCurrentElevatorState() == CLOSEDOOR) && floor == getCurrentFloor()) // If an order comes from the current floor when the elevator is in either CLOSEDOOR or OPENDOOR, don't do anything.
+            else if ((elev_getCurrentElevatorState() == OPENDOOR || elev_getCurrentElevatorState() == CLOSEDOOR) && floor == elev_getCurrentFloor()) // If an order comes from the current floor when the elevator is in either CLOSEDOOR or OPENDOOR, don't do anything.
                 continue;
             int buttonPushed = panel_getButtonSignal(buttonType, floor);
             if (buttonPushed) {
