@@ -85,27 +85,13 @@ void elev_run(void) {
 }
 
 int elev_init(elevatorParameters_t *param) {
-    int i;
     // Init hardware
     if (!io_init())
         return 0;
     
-    // Zero all floor button lamps
-    for (i = 0; i < N_FLOORS; ++i) {
-        if (i != 0)
-            panel_setButtonLamp(BUTTON_CALL_DOWN, i, LAMP_OFF);
-        
-        if (i != N_FLOORS-1)
-            panel_setButtonLamp(BUTTON_CALL_UP, i, LAMP_OFF);
-        
-        panel_setButtonLamp(BUTTON_COMMAND, i, LAMP_OFF);
-    }
-    
-    // Clear stop lamp, door open lamp, and set floor indicator to ground floor.
-    panel_setStopLamp(LAMP_OFF);
-    panel_setDoorOpenLamp(LAMP_OFF);
-    panel_setFloorIndicator(LAMP_ON);
     if (!oq_init())
+        return 0;
+    if (!panel_init())
         return 0;
     elev_setSpeed(100);
     while (panel_getFloorSensorSignal()== -1) {
@@ -114,6 +100,7 @@ int elev_init(elevatorParameters_t *param) {
     elev_stop(UP);
     param->currentState = IDLE;
     param->nextState = IDLE;
+    int i;
     for (i=0; i<NUMBER_OF_SIGNALS; i++)
         param->signals[i] = 0;
     param->directionUp = UP;

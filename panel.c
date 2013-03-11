@@ -22,6 +22,25 @@ static const int lamp_channel_matrix[N_FLOORS][N_BUTTONS] =
 static const int button_channel_matrix[N_FLOORS][N_BUTTONS] =
 {SCM_SET(1), SCM_SET(2), SCM_SET(3), SCM_SET(4)};
 
+int panel_init(void) {
+    int i;
+    for (i = 0; i < N_FLOORS; ++i) {
+        if (i != 0)
+            panel_setButtonLamp(BUTTON_CALL_DOWN, i, LAMP_OFF);
+        
+        if (i != N_FLOORS-1)
+            panel_setButtonLamp(BUTTON_CALL_UP, i, LAMP_OFF);
+        
+        panel_setButtonLamp(BUTTON_COMMAND, i, LAMP_OFF);
+    }
+    
+    // Clear stop lamp, door open lamp, and set floor indicator to ground floor.
+    panel_setStopLamp(LAMP_OFF);
+    panel_setDoorOpenLamp(LAMP_OFF);
+    panel_setFloorIndicator(LAMP_ON);
+    return 1;
+}
+
 void panel_checkForOrders(const elevatorParameters_t *param) {
     int floor;
     elev_button_type_t buttonType;
@@ -131,7 +150,7 @@ void panel_setFloorIndicator(int floor) {
 
 
 
-int panel_getButtonSignal(elev_button_type_t button, int floor) {
+static int panel_getButtonSignal(elev_button_type_t button, int floor) {
 	// assert crashes the program deliberately if it's condition does not hold,
 	// and prints an informative error message. Useful for debugging.
     assert(floor >= 0);
@@ -149,7 +168,7 @@ int panel_getButtonSignal(elev_button_type_t button, int floor) {
 
 
 
-void panel_setButtonLamp(elev_button_type_t button, int floor, int value) {
+static void panel_setButtonLamp(elev_button_type_t button, int floor, int value) {
 	// assert crashes the program deliberately if it's condition does not hold,
 	// and prints an informative error message. Useful for debugging.
     assert(floor >= 0);

@@ -1,6 +1,13 @@
 #pragma once
 
 /**
+ Initializing the panel
+ @return Nonzero on sucess, zero on failure.
+ **/
+
+int panel_init(void);
+
+/**
  Turn door-open lamp on or off.
  @param value Non-zero value turns lamp on, 0 turns lamp off.
  */
@@ -50,7 +57,7 @@ void panel_setFloorIndicator(int floor);
  @param floor Which floor to check button. Must be 0-3.
  @return 0 if button is not pushed. 1 if button is pushed.
  */
-int panel_getButtonSignal(elev_button_type_t button, int floor);
+static int panel_getButtonSignal(elev_button_type_t button, int floor);
 
 /**
  Set a button lamp.
@@ -59,12 +66,7 @@ int panel_getButtonSignal(elev_button_type_t button, int floor);
  @param floor Floor of lamp to set. Must be 0-3
  @param value Non-zero value turns lamp on, 0 turns lamp off.
  */
-void panel_setButtonLamp(elev_button_type_t button, int floor, int value);
-
-/**
- Updating everything on the panel.
- **/
-void panel_updatePanel(void);
+static void panel_setButtonLamp(elev_button_type_t button, int floor, int value);
 
 /**
  Turning off all panel-light in a given floor.

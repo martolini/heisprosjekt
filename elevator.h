@@ -3,6 +3,13 @@
 #include "globals.h"
 
 /**
+ Initializing the elevator
+ @param param the parameters of the elevator
+ @return Nonzero on success, 0 on failure.
+ **/
+int elev_init(elevatorParameters_t *);
+
+/**
  Sets the speed of the elevator.
  @param speed New speed of elevator. Positive values denote upward movement
  and vice versa. Set speed to 0 to stop the elevator. From -300 to 300 gives
@@ -15,14 +22,6 @@ void elev_setSpeed(int speed);
  @param param The parameters of the elevator
  **/
 void elev_updateSignals(elevatorParameters_t *);
-
-
-/**
- Initializing the elevator
- @param param the parameters of the elevator
- @return Nonzero on success, 0 on failure.
- **/
-int elev_init(elevatorParameters_t *);
 
 /**
  Calculating the next direction of the elevator, depending on the orderqueue.
