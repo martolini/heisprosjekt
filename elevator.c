@@ -24,7 +24,7 @@ enum stateSignals_t {
 struct tag_elevatorParameters_t {
     elevatorState_t currentState;
     elevatorState_t nextState;
-    elevatorDirection directionUp;
+    elevatorDirection_t directionUp;
     int currentFloor;
     int signals[NUMBER_OF_SIGNALS];
 };
