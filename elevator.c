@@ -179,7 +179,7 @@ elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
 //    printf("orderqueue error: direction neither up nor down");
 //    return UP;
     int floor;
-    for (floor = 0; floor<currentFloor; ++floor) {
+    for (floor = 0; floor<N_FLOORS; ++floor) {
         if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor)) {
             if (floor < currentFloor)
                 return direction;
