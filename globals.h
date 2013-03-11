@@ -14,6 +14,12 @@ typedef enum {
 } elevatorState_t;
 
 /**
+ A struct which contains all the parameters that the elevator keeps track off
+ **/
+
+typedef struct tag_elevatorParameters_t elevatorParameters_t;
+
+/**
  Lamp on off
 **/
 

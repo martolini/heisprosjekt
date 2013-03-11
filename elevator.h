@@ -3,12 +3,6 @@
 #include "globals.h"
 
 /**
- A struct which contains all the parameters that the elevator keeps track off
- **/
-
-typedef struct tag_elevatorParameters_t elevatorParameters_t;
-
-/**
  Sets the speed of the elevator.
  @param speed New speed of elevator. Positive values denote upward movement
  and vice versa. Set speed to 0 to stop the elevator. From -300 to 300 gives
