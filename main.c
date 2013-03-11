@@ -8,7 +8,6 @@
 
 int main()
 {
-    printf("nos = %i", NUMBER_OF_SIGNALS);
     elev_run();
     return 0;
 }

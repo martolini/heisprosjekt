@@ -47,7 +47,7 @@ void elev_setDirectionAndSpeed(elevatorParameters_t *);
 /**
  Prints the status of the elevator with states and signals. Mainly for debugging.
  **/
-void printStatus(void);
+void printStatus(const elevatorParameters_t *);
 
 /**
  Running the elevator

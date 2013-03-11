@@ -83,7 +83,7 @@ void elev_run(void) {
         elevParam->currentState = elevParam->nextState;
         elev_updateSignals(elevParam);
         panel_checkForOrders(elevParam);
-        printStatus();
+        printStatus(elevParam);
     }
 }
 
@@ -188,8 +188,8 @@ void elev_stop(elevatorDirection_t direction){
     elev_setSpeed(0);
 }
 
-void printStatus (void) {
-    //printf("Current Floor: %i, HasOrders: %i, directionUP: %i, signalShouldStop = %i, currentState = %i, elevParam->nextState = %i\n", currentFloor, oq_hasOrders(), directionUp, signalShouldStop, currentState, elevParam->nextState);
+void printStatus (const elevatorParameters_t *param) {
+    printf("Current Floor: %i, HasOrders: %i, directionUP: %i, currentState = %i, elevParam->nextState = %i\n", param->currentFloor, oq_hasOrders(), param->directionUp, param->currentState, param->nextState);
 }
 
 
