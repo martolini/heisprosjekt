@@ -53,7 +53,7 @@ typedef struct tag_elevatorParameters_t {
     elevatorState_t nextState;
     elevatorDirection_t directionUp;
     int currentFloor;
-    int signals[sigNUMBER_OF_SIGNALS];
+    int signals[SIG_NUMBER_OF_SIGNALS];
 } elevatorParameters_t;
 
 
