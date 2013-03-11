@@ -161,23 +161,33 @@ void elev_updateSignals(elevatorParameters_t *param) {
 }
 
 elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
-    int floor = currentFloor;
-    if (direction == UP) {
-        for (floor = floor+1; floor<N_FLOORS; floor++) {
-            if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor))
-                return UP;
+//    int floor = currentFloor;
+//    if (direction == UP) {
+//        for (floor = floor+1; floor<N_FLOORS; floor++) {
+//            if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor))
+//                return UP;
+//        }
+//        return DOWN;
+//    }
+//    else if (direction == DOWN) {
+//        for (floor = floor-1; floor>=0; floor--) {
+//            if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor))
+//                return DOWN;
+//        }
+//        return UP;
+//    }
+//    printf("orderqueue error: direction neither up nor down");
+//    return UP;
+    int floor;
+    for (floor = 0; floor<currentFloor; ++floor) {
+        if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor)) {
+            if (floor < currentFloor)
+                return direction;
+            else if (floor > currentFloor)
+                return !direction;
         }
-        return DOWN;
     }
-    else if (direction == DOWN) {
-        for (floor = floor-1; floor>=0; floor--) {
-            if (oq_hasOrderInFloor(UP, floor) || oq_hasOrderInFloor(DOWN, floor))
-                return DOWN;
-        }
-        return UP;
-    }
-    printf("orderqueue error: direction neither up nor down");
-    return UP;
+    return direction;
 }
 
 void elev_stop(elevatorDirection_t direction){
