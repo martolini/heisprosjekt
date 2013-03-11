@@ -38,6 +38,7 @@ void elev_run(void) {
                 break;
             case CLOSEDOOR:
                 if (elevParam->signals[OBSTRUCTION]) elevParam->nextState = OPENDOOR;
+                printf("obs = %i, num = %i", OBSTRUCTION, NUMBER_OF_SIGNALS);
                 else if (elevParam->signals[HAS_ORDERS]) elevParam->nextState = DRIVE;
                 else elevParam->nextState = IDLE;
                 break;
