@@ -12,14 +12,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-enum stateSignals_t {
+enum tag_stateSignals_t {
     HAS_ORDERS = 0,
     SHOULD_STOP,
     EMERGENCY,
     TIMER_FINISHED,
     OBSTRUCTION,
     NUMBER_OF_SIGNALS
-};
+} stateSignals_t;
 
 struct tag_elevatorParameters_t {
     elevatorState_t currentState;
