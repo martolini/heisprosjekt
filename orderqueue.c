@@ -8,6 +8,7 @@ static int orders[2][N_FLOORS];
 
 int oq_init(void) {
     static int isInitialized = 0;
+    // Setting all orders to 0 (no order).
     if (!isInitialized) {
         int dir, floor;
         for (dir=DIR_DOWN; dir<= DIR_UP; dir++) {

@@ -74,7 +74,7 @@ void panel_checkForOrders(const elevatorParameters_t *param) {
 void panel_turnOffLightsInFloor(int floor) {
     elev_button_type_t buttonType;
     for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
-        if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1))
+        if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1)) // Making sure we don't get button down in ground floor and button up in top floor
             continue;
         panel_setButtonLamp(buttonType, floor, LAMP_OFF);
     }

@@ -14,8 +14,10 @@
 
 void elev_run(void) {    
     elevatorParameters_t l_elevParam;
-    elevatorParameters_t *elevParam = &l_elevParam;
+    elevatorParameters_t *elevParam = &l_elevParam; // Points to the address of the variable l_elevParam on the stack, used so other functions can change it
     elev_init(elevParam);
+    
+    // This is the main FSM. We have a currentState and a nextState. When the FSM is in a current state, it only looks for signals returned by functions.
         
     while (1) {
         switch (elevParam->currentState) {
@@ -47,8 +49,9 @@ void elev_run(void) {
                 break;
         }
         
-        if (elevParam->signals[SIG_EMERGENCY_STOP]) elevParam->nextState = STATE_EMERGENCYSTOP;
+        if (elevParam->signals[SIG_EMERGENCY_STOP]) elevParam->nextState = STATE_EMERGENCYSTOP; // Emergencystop can always be pressed.
         
+        // Here we handle the transitions (entry functions) from one state to another. Only happening when changing states.
         if (elevParam->nextState != elevParam->currentState) {
             switch (elevParam->nextState) {
                 case STATE_IDLE:
@@ -77,6 +80,8 @@ void elev_run(void) {
             }
         }
         
+        // The currentstate is updated to nextState, the FSM updates its signals and the panel is checking for orders.
+        
         elevParam->currentState = elevParam->nextState;
         elev_updateSignals(elevParam);
         panel_checkForOrders(elevParam);
@@ -94,14 +99,14 @@ int elev_init(elevatorParameters_t *param) {
     if (!panel_init())
         return 0;
     elev_setSpeed(100);
-    while (panel_getFloorSensorSignal()== -1) {
+    while (panel_getFloorSensorSignal()== -1) { // Driving up to the nearest floor
         ;
     }
     elev_stop(DIR_UP);
-    param->currentState = STATE_IDLE;
+    param->currentState = STATE_IDLE; // Initial state is STATE_IDLE
     param->nextState = STATE_IDLE;
     int i;
-    for (i=0; i<SIG_NUMBER_OF_SIGNALS; i++)
+    for (i=0; i<SIG_NUMBER_OF_SIGNALS; i++) // All signals are 0 (low) when initialized.
         param->signals[i] = 0;
     param->directionUp = DIR_UP;
     param->currentFloor = panel_getFloorSensorSignal();
@@ -110,13 +115,14 @@ int elev_init(elevatorParameters_t *param) {
 }
 
 void elev_updateSignals(elevatorParameters_t *param) {
+    // 
     switch(param->currentState) {
         case STATE_IDLE:
             param->signals[SIG_HAS_ORDERS] = oq_hasOrders();
             param->signals[SIG_SHOULD_STOP] = (oq_hasOrderInFloor(DIR_UP, param->currentFloor) || oq_hasOrderInFloor(DIR_DOWN, param->currentFloor));
             break;
         case STATE_DRIVE:;
-            int tempFloor = panel_getFloorSensorSignal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
+            int tempFloor = panel_getFloorSensorSignal(); // We had to use this local variable, sometimes the signal from the sensor changed so fast so currentFloor became -1.
             if (tempFloor != -1) {
                 param->currentFloor = tempFloor;
                 panel_setFloorIndicator(param->currentFloor);
@@ -142,7 +148,7 @@ void elev_updateSignals(elevatorParameters_t *param) {
             param->signals[SIG_HAS_ORDERS] = oq_hasOrders();
             break;
     }
-    param->signals[SIG_EMERGENCY_STOP] = panel_getStopSignal();
+    param->signals[SIG_EMERGENCY_STOP] = panel_getStopSignal(); // Always check for emergencystopsignal.
 }
 
 elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
@@ -161,8 +167,7 @@ elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
         }
         return DIR_UP;
     }
-    printf("orderqueue error: direction neither up nor down");
-    return DIR_UP;
+    return DIR_UP; // In case of no orders, just setting the direction to DIR_UP. This doesn't really matter as the elevator is finding the new direction on transition to DRIVE.
 }
 
 void elev_stop(elevatorDirection_t direction){

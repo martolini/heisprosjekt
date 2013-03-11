@@ -16,7 +16,6 @@ typedef enum {
 /**
  The different signals used by the statemachine
  **/
-
 typedef enum {
     SIG_HAS_ORDERS,
     SIG_SHOULD_STOP,
@@ -29,7 +28,6 @@ typedef enum {
 /**
  Lamp on off
 **/
-
 typedef enum {
     LAMP_OFF = 0,
     LAMP_ON
@@ -38,7 +36,6 @@ typedef enum {
 /**
  The direction of the elevator
  **/
-
 typedef enum {
     DIR_DOWN = 0,
     DIR_UP
@@ -47,7 +44,6 @@ typedef enum {
 /**
  A struct which contains all the parameters that the elevator keeps track off
  **/
-
 typedef struct tag_elevatorParameters_t {
     elevatorState_t currentState;
     elevatorState_t nextState;
