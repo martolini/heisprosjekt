@@ -12,13 +12,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void elev_run(void) {
-    printf("Initializing elevator");
-    
+void elev_run(void) {    
     elevatorParameters_t l_elevParam;
     elevatorParameters_t *elevParam = &l_elevParam;
     elev_init(elevParam);
-    printf("%i", NUMBER_OF_SIGNALS);
         
     while (1) {
         switch (elevParam->currentState) {
@@ -40,7 +37,7 @@ void elev_run(void) {
                 else elevParam->nextState = OPENDOOR;
                 break;
             case CLOSEDOOR:
-                if (elevParam->signals[4]) elevParam->nextState = OPENDOOR;
+                if (elevParam->signals[OBSTRUCTION]) elevParam->nextState = OPENDOOR;
                 else if (elevParam->signals[HAS_ORDERS]) elevParam->nextState = DRIVE;
                 else elevParam->nextState = IDLE;
                 break;
