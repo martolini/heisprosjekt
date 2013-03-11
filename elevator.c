@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int elev_run(void) {
+void elev_run(void) {
     printf("Initializing elevator");
     
     elevatorParameters_t l_elevParam;
