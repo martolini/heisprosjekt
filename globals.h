@@ -6,11 +6,11 @@
  The different states of the statemachine
  **/
 typedef enum {
-    IDLE = 0,
-    DRIVE,
-    OPENDOOR,
-    CLOSEDOOR,
-    EMERGENCYSTOP
+    STATE_IDLE = 0,
+    STATE_DRIVE,
+    STATE_OPENDOOR,
+    STATE_CLOSEDOOR,
+    STATE_EMERGENCYSTOP
 } elevatorState_t;
 
 /**
@@ -18,12 +18,12 @@ typedef enum {
  **/
 
 typedef enum {
-    sigHAS_ORDERS,
-    sigSHOULD_STOP,
-    sigEMERGENCY,
-    sigTIMER_FINISHED,
-    sigOBSTRUCTION,
-    sigNUMBER_OF_SIGNALS
+    SIG_HAS_ORDERS,
+    SIG_SHOULD_STOP,
+    SIG_EMERGENCY_STOP,
+    SIG_TIMER_FINISHED,
+    SIG_OBSTRUCTION,
+    SIG_NUMBER_OF_SIGNALS
 } stateSignals_t;
 
 /**
@@ -40,8 +40,8 @@ typedef enum {
  **/
 
 typedef enum {
-    DOWN = 0,
-    UP
+    DIR_DOWN = 0,
+    DIR_UP
 } elevatorDirection_t;
 
 /**

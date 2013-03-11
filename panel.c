@@ -48,19 +48,19 @@ void panel_checkForOrders(const elevatorParameters_t *param) {
         for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
             if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1)) // There is no downbutton from bottom floor, and no upbutton for topfloor
                 continue;
-            else if (buttonType != BUTTON_COMMAND && param->currentState == EMERGENCYSTOP) // If the elevator is in EMERGENCYSTOP and order's from the outside, don't do anything
+            else if (buttonType != BUTTON_COMMAND && param->currentState == STATE_EMERGENCYSTOP) // If the elevator is in STATE_EMERGENCYSTOP and order's from the outside, don't do anything
                 continue;
-            else if ((param->currentState == OPENDOOR || param->currentState == CLOSEDOOR) && floor == param->currentFloor) // If an order comes from the current floor when the elevator is in either CLOSEDOOR or OPENDOOR, don't do anything.
+            else if ((param->currentState == STATE_OPENDOOR || param->currentState == STATE_CLOSEDOOR) && floor == param->currentFloor) // If an order comes from the current floor when the elevator is in either STATE_CLOSEDOOR or STATE_OPENDOOR, don't do anything.
                 continue;
             int buttonPushed = panel_getButtonSignal(buttonType, floor);
             if (buttonPushed) {
                 panel_setButtonLamp(buttonType, floor, LAMP_ON);
                 switch(buttonType) {
                     case BUTTON_CALL_UP:
-                        oq_addOuterOrder(UP, floor);
+                        oq_addOuterOrder(DIR_UP, floor);
                         break;
                     case BUTTON_CALL_DOWN:
-                        oq_addOuterOrder(DOWN, floor);
+                        oq_addOuterOrder(DIR_DOWN, floor);
                         break;
                     case BUTTON_COMMAND: // order recieved inside the elevator
                         oq_addInnerOrder(floor, param->currentFloor);
