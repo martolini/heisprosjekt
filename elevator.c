@@ -12,8 +12,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void elev_run(void) {    
-    elevatorParameters_t l_elevParam;
+void elev_run(void) {
+    elevatorParameters_t l_elevParam; // Initializing the variable that holds the parameters to the elevator throughout the lifecycle.
     elevatorParameters_t *elevParam = &l_elevParam; // Points to the address of the variable l_elevParam on the stack, used so other functions can change it
     elev_init(elevParam);
     
@@ -115,7 +115,6 @@ int elev_init(elevatorParameters_t *param) {
 }
 
 void elev_updateSignals(elevatorParameters_t *param) {
-    // 
     switch(param->currentState) {
         case STATE_IDLE:
             param->signals[SIG_HAS_ORDERS] = oq_hasOrders();

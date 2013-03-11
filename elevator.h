@@ -18,7 +18,7 @@ int elev_init(elevatorParameters_t *);
 void elev_setSpeed(int speed);
 
 /**
- Updating all the signals for the statemachine
+ Updating all the signals for the statemachine, depending on the current state.
  @param param The parameters of the elevator
  **/
 void elev_updateSignals(elevatorParameters_t *);
