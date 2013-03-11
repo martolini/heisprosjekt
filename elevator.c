@@ -12,14 +12,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-struct tag_elevatorParameters_t {
-    elevatorState_t currentState;
-    elevatorState_t nextState;
-    elevatorDirection_t directionUp;
-    int currentFloor;
-    int signals[NUMBER_OF_SIGNALS];
-};
-
 int elev_init(elevatorParameters_t *param) {
     int i;
     // Init hardware

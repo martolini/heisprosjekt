@@ -30,7 +30,14 @@ typedef enum {
  A struct which contains all the parameters that the elevator keeps track off
  **/
 
-typedef struct tag_elevatorParameters_t elevatorParameters_t;
+typedef struct tag_elevatorParameters_t {
+    elevatorState_t currentState;
+    elevatorState_t nextState;
+    elevatorDirection_t directionUp;
+    int currentFloor;
+    int signals[NUMBER_OF_SIGNALS];
+} elevatorParameters_t;
+
 
 /**
  Lamp on off
