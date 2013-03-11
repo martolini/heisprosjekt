@@ -22,16 +22,16 @@ static const int lamp_channel_matrix[N_FLOORS][N_BUTTONS] =
 static const int button_channel_matrix[N_FLOORS][N_BUTTONS] =
 {SCM_SET(1), SCM_SET(2), SCM_SET(3), SCM_SET(4)};
 
-void panel_checkForOrders(void) {
+void panel_checkForOrders(const elevatorParameter_t *param) {
     int floor;
     elev_button_type_t buttonType;
     for (floor=0; floor<N_FLOORS; floor++) {
         for (buttonType = BUTTON_CALL_UP; buttonType <= BUTTON_COMMAND; buttonType++) {
             if ((buttonType == BUTTON_CALL_DOWN && floor == 0) || (buttonType == BUTTON_CALL_UP && floor == N_FLOORS-1)) // There is no downbutton from bottom floor, and no upbutton for topfloor
                 continue;
-            else if (buttonType != BUTTON_COMMAND && elev_getCurrentElevatorState() == EMERGENCYSTOP) // If the elevator is in EMERGENCYSTOP and order's from the outside, don't do anything
+            else if (buttonType != BUTTON_COMMAND && param->currentState == EMERGENCYSTOP) // If the elevator is in EMERGENCYSTOP and order's from the outside, don't do anything
                 continue;
-            else if ((elev_getCurrentElevatorState() == OPENDOOR || elev_getCurrentElevatorState() == CLOSEDOOR) && floor == elev_getCurrentFloor()) // If an order comes from the current floor when the elevator is in either CLOSEDOOR or OPENDOOR, don't do anything.
+            else if ((param->currentState == OPENDOOR || param->currentState == CLOSEDOOR) && floor == param->currentFloor) // If an order comes from the current floor when the elevator is in either CLOSEDOOR or OPENDOOR, don't do anything.
                 continue;
             int buttonPushed = panel_getButtonSignal(buttonType, floor);
             if (buttonPushed) {
@@ -44,7 +44,7 @@ void panel_checkForOrders(void) {
                         oq_addOuterOrder(DOWN, floor);
                         break;
                     case BUTTON_COMMAND: // order recieved inside the elevator
-                        oq_addInnerOrder(floor, elev_getCurrentFloor());
+                        oq_addInnerOrder(floor, param->currentFloor);
                         break;
                 }
             }

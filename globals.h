@@ -11,7 +11,7 @@ typedef enum {
     OPENDOOR,
     CLOSEDOOR,
     EMERGENCYSTOP
-} elevatorState;
+} elevatorState_t;
 
 /**
  Lamp on off
@@ -20,7 +20,7 @@ typedef enum {
 typedef enum {
     LAMP_OFF = 0,
     LAMP_ON
-} lampButtonToggle;
+} lampButtonToggle_t;
 
 /**
  The direction of the elevator
@@ -29,7 +29,7 @@ typedef enum {
 typedef enum {
     DOWN = 0,
     UP
-} elevatorDirection;
+} elevatorDirection_t;
 
 /**
  Button types for function elev_set_button_lamp() and elev_get_button().

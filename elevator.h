@@ -3,6 +3,12 @@
 #include "globals.h"
 
 /**
+ A struct which contains all the parameters that the elevator keeps track off
+ **/
+
+typedef struct tag_elevatorParameters_t elevatorParameters_t;
+
+/**
  Sets the speed of the elevator.
  @param speed New speed of elevator. Positive values denote upward movement
  and vice versa. Set speed to 0 to stop the elevator. From -300 to 300 gives
@@ -11,43 +17,38 @@
 void elev_setSpeed(int speed);
 
 /**
- Updating all the signals for the statemachine, dependant on the state
+ Updating all the signals for the statemachine
+ @param param The parameters of the elevator
  **/
-void elev_updateSignals(elevatorState curState);
+void elev_updateSignals(elevatorParameters_t *);
 
 
 /**
  Initializing the elevator
+ @param param the parameters of the elevator
  @return Nonzero on success, 0 on failure.
  **/
-int elev_init(void);
+int elev_init(elevatorParameters_t *);
 
 /**
  Calculating the next direction of the elevator, depending on the orderqueue.
+ @param1 currentFloor The current floor of the elevator
+ @param2 direction The current direction of the elevator
  @return 1 for UP and 0 for DOWN (enum).
  **/
-elevatorDirection elev_findDirection(void);
+elevatorDirection elev_findDirection(int, int);
 
 /**
  Stopping the elevator.
+ @param direction The direction of the elevator
  **/
-void elev_stop(void);
-
-/**
- Returning the current floor
- @return the current floor, 0-indexed.
- **/
-int elev_getCurrentFloor(void);
-
-/**
- Returns the current state of the elevator
- **/
-elevatorState elev_getCurrentElevatorState(void);
+void elev_stop(elevatorDirection_t);
 
 /**
  Setting the direction and speed of the elevator
+ @param param The parameters of the elevator
  **/
-void elev_setDirectionAndSpeed(void);
+void elev_setDirectionAndSpeed(elevatorParameters_t *);
 
 /**
  Prints the status of the elevator with states and signals. Mainly for debugging.
