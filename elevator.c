@@ -12,55 +12,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int elev_init(elevatorParameters_t *param) {
-    int i;
-    // Init hardware
-    if (!io_init())
-        return 0;
-    
-    // Zero all floor button lamps
-    for (i = 0; i < N_FLOORS; ++i) {
-        if (i != 0)
-            panel_setButtonLamp(BUTTON_CALL_DOWN, i, 0);
-        
-        if (i != N_FLOORS-1)
-            panel_setButtonLamp(BUTTON_CALL_UP, i, 0);
-        
-        panel_setButtonLamp(BUTTON_COMMAND, i, 0);
-    }
-    
-    // Clear stop lamp, door open lamp, and set floor indicator to ground floor.
-    panel_setStopLamp(0);
-    panel_setDoorOpenLamp(0);
-    panel_setFloorIndicator(0);
-    if (!oq_init())
-        return 0;
-    elev_setSpeed(100);
-    while (panel_getFloorSensorSignal()== -1) {
-        ;
-    }
-    elev_stop(UP);
-    param->currentState = IDLE;
-    param->nextState = IDLE;
-    for (i=0; i<NUMBER_OF_SIGNALS; ++i)
-        param->signals[i] = 0;
-    param->directionUp = UP;
-    param->currentFloor = panel_getFloorSensorSignal();
-    panel_setFloorIndicator(param->currentFloor);
-    return 1;
-}
-
-int main()
-{
-    // Initialize hardware
+int elev_run(void) {
     printf("Initializing elevator");
     
     elevatorParameters_t l_elevParam;
     elevatorParameters_t *elevParam = &l_elevParam;
     elev_init(elevParam);
-    
-    printf("Press STOP button to stop elevator and exit program.\n");
-    
+        
     while (1) {
         switch (elevParam->currentState) {
             case IDLE:
@@ -126,7 +84,44 @@ int main()
         panel_checkForOrders(elevParam);
         printStatus();
     }
-    return 0;
+}
+
+int elev_init(elevatorParameters_t *param) {
+    int i;
+    // Init hardware
+    if (!io_init())
+        return 0;
+    
+    // Zero all floor button lamps
+    for (i = 0; i < N_FLOORS; ++i) {
+        if (i != 0)
+            panel_setButtonLamp(BUTTON_CALL_DOWN, i, LAMP_OFF);
+        
+        if (i != N_FLOORS-1)
+            panel_setButtonLamp(BUTTON_CALL_UP, i, LAMP_OFF);
+        
+        panel_setButtonLamp(BUTTON_COMMAND, i, LAMP_OFF);
+    }
+    
+    // Clear stop lamp, door open lamp, and set floor indicator to ground floor.
+    panel_setStopLamp(LAMP_OFF);
+    panel_setDoorOpenLamp(LAMP_OFF);
+    panel_setFloorIndicator(LAMP_ON);
+    if (!oq_init())
+        return 0;
+    elev_setSpeed(100);
+    while (panel_getFloorSensorSignal()== -1) {
+        ;
+    }
+    elev_stop(UP);
+    param->currentState = IDLE;
+    param->nextState = IDLE;
+    for (i=0; i<NUMBER_OF_SIGNALS; ++i)
+        param->signals[i] = 0;
+    param->directionUp = UP;
+    param->currentFloor = panel_getFloorSensorSignal();
+    panel_setFloorIndicator(param->currentFloor);
+    return 1;
 }
 
 void elev_updateSignals(elevatorParameters_t *param) {

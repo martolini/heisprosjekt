@@ -3,8 +3,7 @@
 // the real time lab.
 //
 // 2006, Martin Korsgaard
-#ifndef __INCLUDE_IO_H__
-#define __INCLUDE_IO_H__
+#pragma once
 
 
 
@@ -57,6 +56,3 @@ int io_read_bit(int channel);
   @return Value read.
 */
 int io_read_analog(int channel);
-
-#endif // #ifndef __INCLUDE_IO_H__
-
