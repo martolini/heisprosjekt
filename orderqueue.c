@@ -29,7 +29,7 @@ int oq_hasOrders(void) {
     return 0;
 }
 
-void oq_addOuterOrder(elevatorDirection direction, int floor) {
+void oq_addOuterOrder(elevatorDirection_t direction, int floor) {
     orders[direction][floor] = 1;
 }
 
@@ -46,7 +46,7 @@ void oq_deleteOrderInFloor(int floor) {
         orders[dir][floor] = 0;
 }
 
-int oq_hasOrderInFloor(elevatorDirection direction, int floor) {
+int oq_hasOrderInFloor(elevatorDirection_t direction, int floor) {
     return orders[direction][floor];
 }
 

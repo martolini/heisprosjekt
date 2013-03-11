@@ -18,7 +18,7 @@ int oq_hasOrders(void);
    @param1 direction The direction the order is in (user pressed up/down)
    @param2 floor The floor from which the order is recieved
 **/
-void oq_addOuterOrder(elevatorDirection, int);
+void oq_addOuterOrder(elevatorDirection_t, int);
 
 /**
  Adding order from inside the elevator
@@ -38,7 +38,7 @@ void oq_deleteOrderInFloor(int);
  @param1 direction Whether the user is going up or down
  @param2 floor The endpoint of the order
  **/
-int oq_hasOrderInFloor(elevatorDirection, int);
+int oq_hasOrderInFloor(elevatorDirection_t, int);
 
 /**
  Deleting all orders, used for the state EMERGENCYSTOP.
