@@ -173,7 +173,8 @@ elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
 void elev_stop(elevatorDirection_t direction){
     if (direction == DIR_UP) elev_setSpeed(-100);
     else elev_setSpeed(100);
-    usleep(50000);
+    timer_start();
+    while (!timer_timerIsFinished(0.02)) {;}
     elev_setSpeed(0);
 }
 
