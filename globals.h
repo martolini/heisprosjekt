@@ -18,12 +18,12 @@ typedef enum {
  **/
 
 typedef enum {
-    HAS_ORDERS = 0,
-    SHOULD_STOP = 1,
-    EMERGENCY = 2,
-    TIMER_FINISHED = 3,
-    OBSTRUCTION = 4,
-    NUMBER_OF_SIGNALS = 5
+    HAS_ORDERS,
+    SHOULD_STOP,
+    EMERGENCY,
+    TIMER_FINISHED,
+    OBSTRUCTION,
+    NUMBER_OF_SIGNALS
 } stateSignals_t;
 
 /**

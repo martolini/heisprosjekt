@@ -40,7 +40,7 @@ void elev_run(void) {
                 else elevParam->nextState = OPENDOOR;
                 break;
             case CLOSEDOOR:
-                if (elevParam->signals[OBSTRUCTION]) elevParam->nextState = OPENDOOR;
+                if (elevParam->signals[4]) elevParam->nextState = OPENDOOR;
                 else if (elevParam->signals[HAS_ORDERS]) elevParam->nextState = DRIVE;
                 else elevParam->nextState = IDLE;
                 break;
