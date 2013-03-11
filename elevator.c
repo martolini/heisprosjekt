@@ -129,7 +129,7 @@ void elev_updateSignals(elevatorParameters_t *param) {
         case STATE_OPENDOOR:
             param->signals[SIG_TIMER_FINISHED] = timer_timerIsFinished(3);
             break;
-        case STATE_STATE_CLOSEDOOR:
+        case STATE_CLOSEDOOR:
             param->signals[SIG_HAS_ORDERS] = oq_hasOrders();
             param->signals[SIG_OBSTRUCTION] = panel_getObstructionSignal();
             break;
