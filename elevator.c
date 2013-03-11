@@ -85,7 +85,7 @@ void elev_run(void) {
         elevParam->currentState = elevParam->nextState;
         elev_updateSignals(elevParam);
         panel_checkForOrders(elevParam);
-        printStatus(elevParam);
+        //printStatus(elevParam);
     }
 }
 
