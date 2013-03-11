@@ -18,6 +18,7 @@ void elev_run(void) {
     elevatorParameters_t l_elevParam;
     elevatorParameters_t *elevParam = &l_elevParam;
     elev_init(elevParam);
+    printf("%i", NUMBER_OF_SIGNALS);
         
     while (1) {
         switch (elevParam->currentState) {
