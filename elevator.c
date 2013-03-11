@@ -37,7 +37,6 @@ void elev_run(void) {
                 else elevParam->nextState = OPENDOOR;
                 break;
             case CLOSEDOOR:
-                printf("obs = %i, num = %i", OBSTRUCTION, NUMBER_OF_SIGNALS);
                 if (elevParam->signals[OBSTRUCTION]) elevParam->nextState = OPENDOOR;
                 else if (elevParam->signals[HAS_ORDERS]) elevParam->nextState = DRIVE;
                 else elevParam->nextState = IDLE;
@@ -81,7 +80,7 @@ void elev_run(void) {
         elevParam->currentState = elevParam->nextState;
         elev_updateSignals(elevParam);
         panel_checkForOrders(elevParam);
-        //printStatus(elevParam);
+        printStatus(elevParam);
     }
 }
 
@@ -175,6 +174,7 @@ void elev_stop(elevatorDirection_t direction){
 
 void printStatus (const elevatorParameters_t *param) {
     printf("Current Floor: %i, HasOrders: %i, directionUP: %i, currentState = %i, elevParam->nextState = %i\n", param->currentFloor, oq_hasOrders(), param->directionUp, param->currentState, param->nextState);
+    printf("obs = %i, num = %i", OBSTRUCTION, NUMBER_OF_SIGNALS);
 }
 
 
