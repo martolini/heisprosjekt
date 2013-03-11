@@ -22,7 +22,7 @@ static const int lamp_channel_matrix[N_FLOORS][N_BUTTONS] =
 static const int button_channel_matrix[N_FLOORS][N_BUTTONS] =
 {SCM_SET(1), SCM_SET(2), SCM_SET(3), SCM_SET(4)};
 
-void panel_checkForOrders(const elevatorParameter_t *param) {
+void panel_checkForOrders(const elevatorParameters_t *param) {
     int floor;
     elev_button_type_t buttonType;
     for (floor=0; floor<N_FLOORS; floor++) {

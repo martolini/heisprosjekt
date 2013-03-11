@@ -18,7 +18,7 @@ enum stateSignals_t {
     EMERGENCY,
     TIMER_FINISHED,
     OBSTRUCTION,
-    NUMBER_OF_SIGNALS // Should be last
+    NUMBER_OF_SIGNALS
 };
 
 struct tag_elevatorParameters_t {
@@ -59,7 +59,7 @@ int elev_init(elevatorParameters_t *param) {
     elev_stop(UP);
     param->currentState = IDLE;
     param->nextState = IDLE;
-    for (i=0; i<NUMBER_OF_SIGNALS< ++i)
+    for (i=0; i<NUMBER_OF_SIGNALS; ++i)
         param->signals[i] = 0;
     param->directionUp = UP;
     param->currentFloor = panel_getFloorSensorSignal();
@@ -74,7 +74,7 @@ int main()
     
     elevatorParameters_t l_elevParam;
     elevatorParameters_t *elevParam = &l_elevParam;
-    elev_init();
+    elev_init(elevParam);
     
     printf("Press STOP button to stop elevator and exit program.\n");
     
@@ -140,14 +140,14 @@ int main()
         
         elevParam->currentState = elevParam->nextState;
         elev_updateSignals(elevParam);
-        panel_checkForOrders();
+        panel_checkForOrders(elevParam);
         printStatus();
     }
     return 0;
 }
 
 void elev_updateSignals(elevatorParameters_t *param) {
-    switch(param->curState) {
+    switch(param->currentState) {
         case IDLE:
             param->signals[HAS_ORDERS] = oq_hasOrders();
             param->signals[SHOULD_STOP] = (oq_hasOrderInFloor(UP, param->currentFloor) || oq_hasOrderInFloor(DOWN, param->currentFloor));
@@ -157,7 +157,8 @@ void elev_updateSignals(elevatorParameters_t *param) {
             if (tempFloor != -1) {
                 param->currentFloor = tempFloor;
                 panel_setFloorIndicator(param->currentFloor);
-                if (oq_hasOrderInFloor(directionUp, param->currentFloor) || (elev_findDirection(param->currentFloor, param->directionUp) == !param->directionUp)) param->signals[SHOULD_STOP] = 1;
+                if (oq_hasOrderInFloor(param->directionUp, param->currentFloor) || (elev_findDirection(param->currentFloor, param->directionUp) == !param->directionUp))
+                    param->signals[SHOULD_STOP] = 1;
                 else param->signals[SHOULD_STOP] = 0;
             }
             else param->signals[SHOULD_STOP] = 0;
@@ -181,7 +182,7 @@ void elev_updateSignals(elevatorParameters_t *param) {
     param->signals[EMERGENCY] = panel_getStopSignal();
 }
 
-elevatorDirection elev_findDirection(int currentFloor, int direction) {
+elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
     int floor = currentFloor;
     if (direction == UP) {
         for (floor = floor+1; floor<N_FLOORS; floor++) {

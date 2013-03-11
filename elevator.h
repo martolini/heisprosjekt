@@ -30,7 +30,7 @@ int elev_init(elevatorParameters_t *);
  @param2 direction The current direction of the elevator
  @return 1 for UP and 0 for DOWN (enum).
  **/
-elevatorDirection elev_findDirection(int, int);
+elevatorDirection_t elev_findDirection(int, int);
 
 /**
  Stopping the elevator.

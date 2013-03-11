@@ -10,7 +10,7 @@ void panel_setDoorOpenLamp(int value);
  Checking for incoming orders. Telling the orderqueue if any buttons are clicked.
  @param param The parameters of the elevator
  **/
-void panel_checkForOrders(const elevatorParameter_t *);
+void panel_checkForOrders(const elevatorParameters_t *);
 
 /**
  Get signal from obstruction switch.
