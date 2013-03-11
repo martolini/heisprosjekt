@@ -11,7 +11,6 @@ void timer_start(void) {
 int timer_timerIsFinished(double sek) {
     static time_t timeNow;
     timeNow = time(NULL);
-    printf("%f", difftime(timeNow, theTime));
     if (difftime(timeNow, theTime) >= sek)
         return 1;
     return 0;
