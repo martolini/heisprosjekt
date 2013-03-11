@@ -17,7 +17,7 @@ int timer_timerIsFinished(double sek) {
     static time_t timeNow;
     static struct timeval end;
     gettimeofday(&end, NULL);
-    double secs = end.tv_sec-start-tv_sec;
+    double secs = end.tv_sec-start.tv_sec;
     printf("%d", secs);
     if (secs >= 3)
         return 1;
