@@ -116,7 +116,7 @@ int elev_init(elevatorParameters_t *param) {
     elev_stop(UP);
     param->currentState = IDLE;
     param->nextState = IDLE;
-    for (i=0; i<NUMBER_OF_SIGNALS; ++i)
+    for (i=0; i<NUMBER_OF_SIGNALS; i++)
         param->signals[i] = 0;
     param->directionUp = UP;
     param->currentFloor = panel_getFloorSensorSignal();
