@@ -57,7 +57,7 @@ void panel_setFloorIndicator(int floor);
  @param floor Which floor to check button. Must be 0-3.
  @return 0 if button is not pushed. 1 if button is pushed.
  */
-static int panel_getButtonSignal(elev_button_type_t button, int floor);
+int panel_getButtonSignal(elev_button_type_t button, int floor);
 
 /**
  Set a button lamp.
@@ -66,7 +66,7 @@ static int panel_getButtonSignal(elev_button_type_t button, int floor);
  @param floor Floor of lamp to set. Must be 0-3
  @param value Non-zero value turns lamp on, 0 turns lamp off.
  */
-static void panel_setButtonLamp(elev_button_type_t button, int floor, int value);
+void panel_setButtonLamp(elev_button_type_t button, int floor, int value);
 
 /**
  Turning off all panel-light in a given floor.

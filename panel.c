@@ -150,7 +150,7 @@ void panel_setFloorIndicator(int floor) {
 
 
 
-static int panel_getButtonSignal(elev_button_type_t button, int floor) {
+int panel_getButtonSignal(elev_button_type_t button, int floor) {
 	// assert crashes the program deliberately if it's condition does not hold,
 	// and prints an informative error message. Useful for debugging.
     assert(floor >= 0);
@@ -168,7 +168,7 @@ static int panel_getButtonSignal(elev_button_type_t button, int floor) {
 
 
 
-static void panel_setButtonLamp(elev_button_type_t button, int floor, int value) {
+void panel_setButtonLamp(elev_button_type_t button, int floor, int value) {
 	// assert crashes the program deliberately if it's condition does not hold,
 	// and prints an informative error message. Useful for debugging.
     assert(floor >= 0);
