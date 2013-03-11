@@ -14,6 +14,19 @@ typedef enum {
 } elevatorState_t;
 
 /**
+ The different signals used by the statemachine
+ **/
+
+typedef enum {
+    HAS_ORDERS = 0,
+    SHOULD_STOP,
+    EMERGENCY,
+    TIMER_FINISHED,
+    OBSTRUCTION,
+    NUMBER_OF_SIGNALS
+} stateSignals_t;
+
+/**
  A struct which contains all the parameters that the elevator keeps track off
  **/
 
