@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-enum tag_stateSignals_t {
+typedef enum {
     HAS_ORDERS = 0,
     SHOULD_STOP,
     EMERGENCY,
