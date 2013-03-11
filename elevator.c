@@ -20,8 +20,8 @@ void elev_run(void) {
     while (1) {
         switch (elevParam->currentState) {
             case IDLE:
-                if (elevParam->signals[HAS_ORDERS]) {
-                    if (elevParam->signals[SHOULD_STOP])
+                if (elevParam->signals[sigHAS_ORDERS]) {
+                    if (elevParam->signals[sigSHOULD_STOP])
                         elevParam->nextState = OPENDOOR;
                     else elevParam->nextState = DRIVE;
                 }
@@ -29,25 +29,25 @@ void elev_run(void) {
                 break;
                 
             case DRIVE:
-                if (elevParam->signals[SHOULD_STOP]) elevParam->nextState = OPENDOOR;
+                if (elevParam->signals[sigSHOULD_STOP]) elevParam->nextState = OPENDOOR;
                 else elevParam->nextState = DRIVE;
                 break;
             case OPENDOOR:
-                if (elevParam->signals[TIMER_FINISHED]) elevParam->nextState = CLOSEDOOR;
+                if (elevParam->signals[sigTIMER_FINISHED]) elevParam->nextState = CLOSEDOOR;
                 else elevParam->nextState = OPENDOOR;
                 break;
             case CLOSEDOOR:
-                if (elevParam->signals[OBSTRUCTION]) elevParam->nextState = OPENDOOR;
-                else if (elevParam->signals[HAS_ORDERS]) elevParam->nextState = DRIVE;
+                if (elevParam->signals[sigOBSTRUCTION]) elevParam->nextState = OPENDOOR;
+                else if (elevParam->signals[sigHAS_ORDERS]) elevParam->nextState = DRIVE;
                 else elevParam->nextState = IDLE;
                 break;
             case EMERGENCYSTOP:
-                if (elevParam->signals[HAS_ORDERS]) elevParam->nextState = CLOSEDOOR; // Making sure doors are closed and everything's in order before continuing.
+                if (elevParam->signals[sigHAS_ORDERS]) elevParam->nextState = CLOSEDOOR; // Making sure doors are closed and everything's in order before continuing.
                 else elevParam->nextState = EMERGENCYSTOP;
                 break;
         }
         
-        if (elevParam->signals[EMERGENCY]) elevParam->nextState = EMERGENCYSTOP;
+        if (elevParam->signals[sigEMERGENCY]) elevParam->nextState = EMERGENCYSTOP;
         
         if (elevParam->nextState != elevParam->currentState) {
             switch (elevParam->nextState) {
@@ -101,7 +101,7 @@ int elev_init(elevatorParameters_t *param) {
     param->currentState = IDLE;
     param->nextState = IDLE;
     int i;
-    for (i=0; i<NUMBER_OF_SIGNALS; i++)
+    for (i=0; i<sigNUMBER_OF_SIGNALS; i++)
         param->signals[i] = 0;
     param->directionUp = UP;
     param->currentFloor = panel_getFloorSensorSignal();
@@ -112,8 +112,8 @@ int elev_init(elevatorParameters_t *param) {
 void elev_updateSignals(elevatorParameters_t *param) {
     switch(param->currentState) {
         case IDLE:
-            param->signals[HAS_ORDERS] = oq_hasOrders();
-            param->signals[SHOULD_STOP] = (oq_hasOrderInFloor(UP, param->currentFloor) || oq_hasOrderInFloor(DOWN, param->currentFloor));
+            param->signals[sigHAS_ORDERS] = oq_hasOrders();
+            param->signals[sigSHOULD_STOP] = (oq_hasOrderInFloor(UP, param->currentFloor) || oq_hasOrderInFloor(DOWN, param->currentFloor));
             break;
         case DRIVE:;
             int tempFloor = panel_getFloorSensorSignal(); // Had to do it, sometimes currentFloor got -1 ?!?!!??!!?
@@ -121,17 +121,17 @@ void elev_updateSignals(elevatorParameters_t *param) {
                 param->currentFloor = tempFloor;
                 panel_setFloorIndicator(param->currentFloor);
                 if (oq_hasOrderInFloor(param->directionUp, param->currentFloor) || (elev_findDirection(param->currentFloor, param->directionUp) == !param->directionUp))
-                    param->signals[SHOULD_STOP] = 1;
-                else param->signals[SHOULD_STOP] = 0;
+                    param->signals[sigSHOULD_STOP] = 1;
+                else param->signals[sigSHOULD_STOP] = 0;
             }
-            else param->signals[SHOULD_STOP] = 0;
+            else param->signals[sigSHOULD_STOP] = 0;
             break;
         case OPENDOOR:
-            param->signals[TIMER_FINISHED] = timer_timerIsFinished(3);
+            param->signals[sigTIMER_FINISHED] = timer_timerIsFinished(3);
             break;
         case CLOSEDOOR:
-            param->signals[HAS_ORDERS] = oq_hasOrders();
-            param->signals[OBSTRUCTION] = panel_getObstructionSignal();
+            param->signals[sigHAS_ORDERS] = oq_hasOrders();
+            param->signals[sigOBSTRUCTION] = panel_getObstructionSignal();
             break;
         case EMERGENCYSTOP:;
             tempFloor = panel_getFloorSensorSignal();
@@ -139,10 +139,10 @@ void elev_updateSignals(elevatorParameters_t *param) {
                 param->currentFloor = tempFloor;
                 panel_setFloorIndicator(param->currentFloor);
             }
-            param->signals[HAS_ORDERS] = oq_hasOrders();
+            param->signals[sigHAS_ORDERS] = oq_hasOrders();
             break;
     }
-    param->signals[EMERGENCY] = panel_getStopSignal();
+    param->signals[sigEMERGENCY] = panel_getStopSignal();
 }
 
 elevatorDirection_t elev_findDirection(int currentFloor, int direction) {
@@ -174,7 +174,6 @@ void elev_stop(elevatorDirection_t direction){
 
 void printStatus (const elevatorParameters_t *param) {
     printf("Current Floor: %i, HasOrders: %i, directionUP: %i, currentState = %i, elevParam->nextState = %i\n", param->currentFloor, oq_hasOrders(), param->directionUp, param->currentState, param->nextState);
-    printf("obs = %i, num = %i", OBSTRUCTION, NUMBER_OF_SIGNALS);
 }
 
 

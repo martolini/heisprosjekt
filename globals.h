@@ -18,12 +18,12 @@ typedef enum {
  **/
 
 typedef enum {
-    HAS_ORDERS,
-    SHOULD_STOP,
-    EMERGENCY,
-    TIMER_FINISHED,
-    OBSTRUCTION,
-    NUMBER_OF_SIGNALS
+    sigHAS_ORDERS,
+    sigSHOULD_STOP,
+    sigEMERGENCY,
+    sigTIMER_FINISHED,
+    sigOBSTRUCTION,
+    sigNUMBER_OF_SIGNALS
 } stateSignals_t;
 
 /**
@@ -53,7 +53,7 @@ typedef struct tag_elevatorParameters_t {
     elevatorState_t nextState;
     elevatorDirection_t directionUp;
     int currentFloor;
-    int signals[NUMBER_OF_SIGNALS];
+    int signals[sigNUMBER_OF_SIGNALS];
 } elevatorParameters_t;
 
 
